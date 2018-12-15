@@ -1,0 +1,92 @@
+/* 全局样式 */
+body {background:#fff;color:#333;}
+* {
+    font-size:12px;
+    font-family:Arial,Tahoma,Verdana,'microsoft yahei';
+}
+
+#watermark span {
+    color: #666;
+    opacity: .10;
+}
+
+.h5container {margin:0 auto;}
+
+.global-loading {text-align:center;color:#ccc;padding-top:30px;}
+.global-loading i {font-size:16px;vertical-align:middle;}
+.global-loading:after {content:' 页面加载中...';font-size:14px;}
+
+.h5head {height:40px;line-height:40px;padding:0 10px;position: fixed;
+    top: 0;left:0;right:0;
+    z-index: 1;
+    background: #161825;
+}
+.h5head .fa {color:#2EC7C9;}
+
+.h5foot {
+    position:fixed;left:0;right:0;bottom:0;
+    height:40px;line-height:40px;padding:0 10px;background:#f1f2f3;
+}
+
+iframe {width:100%;height:100%;    
+    border: none;
+    outline: none;
+}
+
+.mwt-cell {height:80px;text-align:center;border:none;}
+
+.adminbtn {
+    color: gray;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.grida {text-decoration:none;color:#2196F3;}
+.grida:hover {text-decoration:underline;}
+
+
+
+.gridspan {display:block;}
+
+
+.main-panel {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+}
+
+/* 面包屑导航 */
+.posul {display:inline-block;margin:0;padding:0;}
+.posul li {list-style-type:none;margin:0;padding:0;float:left;line-height:30px;color:#666;font-size:12px;}
+.posul li a {text-decoration:none;color:#666;}
+.posul li a:hover {color:#FF8907;}
+.posul .possep {font-size:14px;font-style:normal;margin:0 10px;}
+.posul .possep:before {content:'/'}
+
+
+.mwt-layout-border .mwt-toolbar {border:none;}
+.head-title {color:#FF5722 !important;font:bold 12px 'Heiti SC';}
+
+
+/* */
+.tabul {width:100%;margin:0;padding:0;}
+.tabul li {margin:0;padding:5px 10px;list-style-type:none;font-size:13px;color:#333;font-family:Tohama;}
+.tabul li a {text-decoration:none;font-size:13px;color:#333;font-family:'sans-serif','微软雅黑';display:inline-block;padding:2px 0;
+    white-space: nowrap;
+}
+.tabul li:hover {background: #eee;}
+.tabul li.active {background: #D5ECFD;}
+.tabul li a:hover {text-decoration: underline;}
+
+.tabul .fa {color:#2196F3;cursor:pointer;}
+
+.tabul .rt {display:inline-block;float: right;}
+
+.info-panel {padding:10px;}
+.mwt-nav>li>a {padding:6px 15px;font-size:12px;}
+.mwt-nav-tabs>li.mwt-active>a, .mwt-nav-tabs>li.mwt-active>a:focus, .mwt-nav-tabs>li.mwt-active>a:hover {color:#03A9F4}
+
+.tbtn {font-size:12px;padding:1px 4px !important;}
+.tbtn i {font-size:13px;}
