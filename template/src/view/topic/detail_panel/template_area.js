@@ -9,13 +9,15 @@ define(function(require){
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'fields-'+domid,region:'center',style:'background:#fff',html:'字段'},
-                {id:'cards-'+domid,region:'east',width:width/1.9,style:'background:#fff;border-left:solid 1px #ddd;',html:'卡片'}
+                {id:'fields-'+domid,region:'west',width:width/2.5,style:'background:#fff',html:'字段'},
+                {id:'cards-'+domid,region:'center',style:'background:#fff;border-left:solid 1px #ddd;',html:'卡片'}
             ]
         }).init();
 
-        require('./fields_grid').init('fields-'+domid,topicInfo);
-        require('./cards_grid').init('cards-'+domid,topicInfo);
+        require('./field_panel/page').init('fields-'+domid,topicInfo);
+        require('./card_panel/page').init('cards-'+domid,topicInfo);
+
+        // require('./cards_grid').init('cards-'+domid,topicInfo);
 
         /*
         // 字段工具栏

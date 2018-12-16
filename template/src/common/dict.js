@@ -1,7 +1,14 @@
 define(function(require){
     // 字典
     var dict_map={
-        'active': [{text:'否',value:0},{text:'是',value:1}]
+        'active': [{text:'否',value:0},{text:'是',value:1}],
+        'fieldType': [
+            {text:'文本',value:1},
+            {text:'数字',value:2},
+            {text:'图片',value:3},
+            {text:'音频',value:4},
+            {text:'视频',value:5},
+        ]
     };
 
     var o={};

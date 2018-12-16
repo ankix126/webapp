@@ -1,7 +1,7 @@
 define(function(require){
     var activeIdx = 0,topicInfo;
     var domid,o={};
-
+/*
     var tabs = [
         ['数据',require('./data_area')],
         ['模板',require('./template_area')]
@@ -18,22 +18,26 @@ define(function(require){
         if (jQuery('#'+areaId).html()=='') {
             tabs[activeIdx][1].init(areaId,topicInfo);
         }
-    }
+    }*/
 
 
-    o.init = function(_domid) {
+    o.init = function(_domid,topicInfo) {
         domid = _domid;
 
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'north-'+domid, region:'north', height:68,style:'background:#fff;',
-                    html:textblock.empty("选择学习集浏览记录")},
-                {id:'center-'+domid,region:'center',style:'background:#fff;'}
+                {id:'center-'+domid,region:'center',style:'background:#fff;',html:'item grid'},
+                {id:'south-'+domid, region:'south', height:200,split:true,style:'background:#fff;border-top:solid 1px #ddd',
+                    html:textblock.empty("item detail")}
             ]
         }).init();
-    };
 
+
+        require("./grid").init("center-"+domid);
+
+    };
+/*
 	o.showTopicDetail = function(topicId) {
         topicInfo = require("model/topic").get(topicId);
 	    //print_r(topicInfo);
@@ -68,6 +72,6 @@ define(function(require){
         });
 
 	};
-
+*/
     return o;
 });

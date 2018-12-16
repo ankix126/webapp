@@ -11,6 +11,17 @@ $actionlist = array(
     'queryMyTopic' => array(),     //!< 获取我的学习集列表
     'saveMyTopic' => array(),      //!< 保存我的学习集
     'getMyTopic' => array(),       //!< 获取我的学习集
+
+    'queryUnit' => array(),    //!< 获取主题单元列表
+    'saveUnit' => array(),     //!< 保存单元
+
+    'queryItem' => array(),    //!< 查询记录
+
+    'saveFields' => array(),   //!< 保存字段
+    'getAllFields' => array(), //!< 获取主题的全部字段
+
+    'saveCard' => array(),     //!< 保存卡片
+    'getAllCards' => array(),  //!< 获取主题的全部卡片
 );
 ////////////////////////////////////
 $uid = $_G['uid'];
@@ -41,6 +52,22 @@ function getMyTopic()
     return C::m('#ankix#ankix_topic')->getMyTopic($tid);
 }
 
+function queryUnit() { return C::t('#ankix#topic_unit')->query(); }
+function saveUnit() { return C::t('#ankix#topic_unit')->save(); }
+
+function queryItem() { return C::t('#ankix#topic_unit_item')->query(); }
+
+function saveFields() { return C::t('#ankix#topic_fields')->save(); }
+function getAllFields() {
+    $tid = ankix_validate::getNCParameter('tid','tid','integer');
+    return C::t('#ankix#topic_fields')->getAll($tid);
+}
+
+function saveCard() { return C::t('#ankix#topic_cards')->save(); }
+function getAllCards() {
+    $tid = ankix_validate::getNCParameter('tid','tid','integer');
+    return C::t('#ankix#topic_cards')->getAll($tid); 
+}
 
 // vim600: sw=4 ts=4 fdm=marker syn=php
 ?>

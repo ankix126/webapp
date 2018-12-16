@@ -23,6 +23,18 @@ function store_after_load(){mwt.notify_destroy(loadingdivid);
     jQuery('body').css('cursor','');
 }
 
+/* dz提交数据特殊字符转义 */
+function dz_post_encode(str)
+{/*{{{*/
+    var res = str.replace(/"/g,'&quot;');
+    res = res.replace(/'/g,'&apos;');
+    res = res.replace(/</g,'&lt;');
+    res = res.replace(/>/g,'&gt;');
+    res = res.replace(/\(/g,'&lk;');
+    res = res.replace(/\)/g,'&gk;');
+    return res;
+}/*}}}*/
+
 /* 文本块 */
 function _textblock(cls,msg,domid)
 {/*{{{*/
@@ -60,6 +72,7 @@ textblock = {
         return code;
     },
     empty : function(msg,domid) {
+        if (!msg) msg = '空空如也~';
         var code = '<p style="color:gray;text-align:center;margin-top:25px;">'+msg+'</p>';
         if (domid) mwt.set_html(domid,code);
         return code;

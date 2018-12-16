@@ -90,3 +90,10 @@ iframe {width:100%;height:100%;
 
 .tbtn {font-size:12px;padding:1px 4px !important;}
 .tbtn i {font-size:13px;}
+
+
+.ulgrid tr {border:none !important;}
+.ulgrid .mwt-grid-body  {overflow-y: auto;}
+.ulgrid tr:hover {background:#eee;cursor:pointer;}
+.ulgrid .fa-folder {color:#FFCC80;}
+.ulgrid td {padding:5px 7px;}
