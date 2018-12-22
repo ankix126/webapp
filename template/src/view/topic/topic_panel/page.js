@@ -15,10 +15,10 @@ define(function(require){
         new mwt.ToolBar({
             render : 'tbar-'+domid,
             items  : [
-                '<label class="head-title">我的学习集</label>',
+                '<label class="head-title">'+lan(['my','topic'])+'</label>',
                 '->',
                 {label:iconlabel.plus(''),cls:'mwt-btn-primary tbtn',handler:function(){
-                    var params = {tid:0};
+                    var params = {id:0};
                     require('./dialog').open(params,gridPanel.query);
                 }},
             ]

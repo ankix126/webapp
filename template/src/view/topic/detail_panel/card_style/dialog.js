@@ -49,48 +49,48 @@ define(function(require){
 
         //2. new dialog
         dialog = new MWT.Dialog({
-            title     : '对话框',
+            title     : '',
             form      : form,
-            //fullscreen: true,
+            fullscreen: true,
             // animate   : 'slideRight',
             top: 20,
-            style     : 'width:800px;height:600px;',
+            style     : 'left:15%;right:15%;',
             bodyStyle : 'padding:10px;background:#eee',
             body : '<table class="mwt-formtab">'+
                   '<tr>'+
-                    '<td width="90">卡片名称 <b style="color:red">*</b></td>'+
+                    '<th width="70">'+lan(['name'])+' <b style="color:red">*</b></th>'+
                     '<td><div id="fm-cname'+dialogid+'"></div></td>'+
-                    '<td width="300">预览</td>'+
+                    '<th width="400">'+lan('preview')+'</th>'+
                   '</tr>'+
                   '<tr>'+
-                    '<td colspan="2">正面代码 <b style="color:red">*</b>'+
-                        '<div id="fm-front_code'+dialogid+'"></div></td>'+
+                    '<th colspan="2" style="padding-top: 10px;">'+lan(['front_code'])+' <b style="color:red">*</b>'+
+                        '<div id="fm-front_code'+dialogid+'"></div></th>'+
                     '<td></td>'+
                   '</tr>'+
                   '<tr>'+
-                    '<td colspan="2">格式刷 <b style="color:red">*</b>'+
-                      '<div id="fm-format_code'+dialogid+'"></div></td>'+
+                    '<th colspan="2" style="padding-top: 10px;">'+lan(['format_code'])+' <b style="color:red">*</b>'+
+                      '<div id="fm-format_code'+dialogid+'"></div></th>'+
                     '<td></td>'+
                   '</tr>'+
                   '<tr>'+
-                    '<td colspan="2">背面代码 <b style="color:red">*</b>'+
-                        '<div id="fm-back_code'+dialogid+'"></div></td>'+
+                    '<th colspan="2" style="padding-top: 10px;">'+lan(['back_code'])+' <b style="color:red">*</b>'+
+                        '<div id="fm-back_code'+dialogid+'"></div></th>'+
                     '<td></td>'+
                   '</tr>'+
                 '</table>',
             buttons : [
-                {label:"确定",cls:'mwt-btn-primary',handler:submitClick},
-                {label:"取消",type:'close',cls:'mwt-btn-default'}
+                {label:lan('submit'),cls:'mwt-btn-primary',handler:submitClick},
+                {label:lan('cancel'),type:'close',cls:'mwt-btn-default'}
             ]
         });
         //3. dialog open event
         dialog.on('open',function(){
             form.reset();
-            if (params.cid) {
-                dialog.setTitle("编辑卡片");
+            if (params.id) {
+                dialog.setTitle(lan(["edit","card"]));
                 form.set(params);
             } else {
-                dialog.setTitle("添加卡片");
+                dialog.setTitle(lan(["add","card"]));
             }
         });
     }/*}}}*/
@@ -112,13 +112,15 @@ define(function(require){
             data.front_code = dz_post_encode(data.front_code);
             data.format_code = dz_post_encode(data.format_code);
             data.back_code = dz_post_encode(data.back_code);
-            data.cid = params.cid;
+            data.id = params.id;
             data.tid = params.tid;
             ajax.post('topic&action=saveCard',data,function(res){
                 if (res.errno!=0) mwt.notify(res.errmsg,1500,'danger');
                 else {
                     dialog.close();
-                    if (callback) callback();
+                    if (callback) {
+                        callback();
+                    }
                 }   
             }); 
         } catch (e) {

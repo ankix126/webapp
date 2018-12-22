@@ -113,7 +113,7 @@ define(function(require){
                 var target = item.newtab==1 ? ' target="_blank"' : '';
                 var code = '<li'+cls+'>'+
                     '<a name="navitem" class="lm-menu" href="'+href+'" id="'+liid+'"'+target+'>'+
-                    '<i class="'+icon+'"></i><br>'+item.text+'</a>';
+                    '<i class="'+icon+'"></i><br>'+lan(item.text)+'</a>';
                 // 子菜单
                 if (hassubmenu) {
                     code += "<ul class='submenu'>";
@@ -123,7 +123,7 @@ define(function(require){
                         var liid = 'navitem-'+im.text;
                         var icon = im.icon ? im.icon : 'fa fa-caret-right';
                         code += "<li><a name='navitem' class='lm-item' href='"+href+"' id='"+liid+"'>"+
-                            '<i class="'+icon+'"></i>&nbsp;'+im.text+"</a></li>";
+                            '<i class="'+icon+'"></i>&nbsp;'+lan(im.text)+"</a></li>";
                     }   
                     code += "</ul>";
                 }   
@@ -155,6 +155,11 @@ define(function(require){
     // 初始化顶部工具栏
     function initTop()
     {/*{{{*/
+        var langOptions = [
+            {text:'English', value:'en'},
+            {text:'简体中文', value:'zh'},
+        ];
+
         new mwt.ToolBar({
             render : 'frame-header',
             items  : [ 
@@ -164,13 +169,16 @@ define(function(require){
                 }},
                 {label:'<a href="'+dz.siteurl+'" target="_blank" class="mwt-btn-icon"><i class="sicon-compass"></i></a>',cls:'mwt-btn-icon'},
                 '->',
-/*                {label:'<i class="sicon-size-fullscreen"></i>',cls:'mwt-btn-icon',handler:function(){
+                /*{label:'<i class="sicon-size-fullscreen"></i>',cls:'mwt-btn-icon',handler:function(){
                     var e=window.location.href;
                     var t=e.indexOf("?")<0?"?":"&";
                     e=e.replace("#/",t+"embedded=1#/");
                     window.location=e;
+                }},*/
+                {type:'select',id:"langsel",label:"",width:50,value:language,cls:'langsel',options:langOptions,handler:function(){
+                    var v = mwt.get_select_value('langsel');
+                    setlang(v);
                 }},
-*/
                 '<button id="ucpopbtn" class="mwt-btn mwt-btn-icon" style="width:auto;padding:0 10px 0 5px;">'+
                     '<i class="sicon-user" style="font-size:13px !important;"></i> '+dz.username+
                 '</button>'

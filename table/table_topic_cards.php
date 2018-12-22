@@ -66,20 +66,20 @@ EOF;
     {/*{{{*/
         global $_G;
         $uid = $_G['uid'];
-        $cid = ankix_validate::getNCParameter('cid','cid','integer');
+        $id = ankix_validate::getNCParameter('id','id','integer');
         $record = array (
             'cname' => ankix_validate::getNCParameter('cname','cname','string',50),
             'front_code' => ankix_validate::getNCParameter('front_code','front_code','string',65536),
             'format_code' => ankix_validate::getNCParameter('format_code','format_code','string',65536),
             'back_code' => ankix_validate::getNCParameter('back_code','back_code','string',65536),
         ); 
-        if ($cid==0) {
+        if ($id==0) {
             $record['tid'] = ankix_validate::getNCParameter('tid','tid','integer');
             $record['uid'] = $uid;
             $record['create_time'] = date('Y-m-d H:i:s');
             return $this->pdo->insert($this->table,$record);
         } else {
-            return $this->pdo->update($this->table,$record,array("cid='$cid'"));
+            return $this->pdo->update($this->table,$record,array("id='$id'"));
         }
     }/*}}}*/
 
@@ -87,7 +87,10 @@ EOF;
     public function remove()
     {/*{{{*/
         $id = ankix_validate::getNCParameter('id','id','integer');
-        return $this->update($id,array('isdel'=>1));
+        $record = array(
+            'isdel' => 1,
+        );
+        return $this->pdo->update($this->table,$record,array("id='$id'"));
     }/*}}}*/
 
     // 设置保存

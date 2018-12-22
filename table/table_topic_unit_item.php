@@ -45,18 +45,20 @@ EOF;
             "root" => array(),
         );
         $key   = ankix_validate::getNCParameter('key','key','string');
+        $uid   = ankix_validate::getNCParameter('uid','uid','integer');
         $tid   = ankix_validate::getNCParameter('tid','tid','integer');
         $sort  = ankix_validate::getOPParameter('sort','sort','string',1024,'id');
         $dir   = ankix_validate::getOPParameter('dir','dir','string',1024,'ASC');
         $start = ankix_validate::getOPParameter('start','start','integer',1024,0);
         $limit = ankix_validate::getOPParameter('limit','limit','integer',1024,20);
-        $where = "a.tid='$tid' AND a.isdel=0";
+        $where = "a.topic_id='$tid' AND a.isdel=0";
+        if ($uid!=0) $where.= " AND a.unit_id='$uid'";
         if ($key!="") $where.=" AND (a.name like '%$key%')";
-        $table = DB::table($this->_table);
         $sql = <<<EOF
 SELECT SQL_CALC_FOUND_ROWS 
-a.*
+a.*,b.name as unit_name
 FROM {$this->table} as a
+LEFT JOIN topic_unit as b ON b.id=a.unit_id
 WHERE $where
 ORDER BY a.$sort $dir
 LIMIT $start,$limit
@@ -64,8 +66,24 @@ EOF;
         $return["root"] = $this->pdo->queryAll($sql);
         $row = $this->pdo->queryFirst("SELECT FOUND_ROWS() AS total");
         $return["totalProperty"] = $row["total"];
+        ///////////////////////////////////
+        // fields字段处理
+        foreach ($return['root'] as &$item) {
+            $item['fields'] = $this->decodeFields($item['fields']);
+        }
+        ///////////////////////////////////
         return $return;
     }/*}}}*/
+
+
+    private function encodeFields(array &$fields) {
+        $str = implode("\t",$fields);
+        return $str;
+    }
+
+    private function decodeFields($fields) {
+        return explode("\t",$fields);
+    }
 
     // 保存记录
     public function save()
@@ -74,11 +92,13 @@ EOF;
         $uid = $_G['uid'];
         $id = ankix_validate::getNCParameter('id','id','integer');
         $record = array (
-            'name' => ankix_validate::getNCParameter('name','name','string',50),
-            'description' => ankix_validate::getNCParameter('description','description','string',1024),
-        ); 
+            'unit_id' => ankix_validate::getNCParameter('unit_id','unit_id','integer'),
+            'topic_id' => ankix_validate::getNCParameter('topic_id','topic_id','integer'),
+            'fields' => $this->encodeFields($_POST['fields']),
+        );
+        if ($record['unit_id']<=0) throw new Exception("unit_id is illegal");
+        if ($record['topic_id']<=0) throw new Exception("topic_id is illegal");
         if ($id==0) {
-            $record['tid'] = ankix_validate::getNCParameter('tid','tid','integer');
             $record['status'] = 1;
             $record['create_time'] = date('Y-m-d H:i:s');
             return $this->pdo->insert($this->table,$record);
@@ -91,7 +111,10 @@ EOF;
     public function remove()
     {/*{{{*/
         $id = ankix_validate::getNCParameter('id','id','integer');
-        return $this->update($id,array('isdel'=>1));
+        $record = array(
+            'isdel' => 1,
+        );
+        return $this->pdo->update($this->table,$record,array("id='$id'"));
     }/*}}}*/
 
     // 设置保存
@@ -100,6 +123,17 @@ EOF;
         $id = ankix_validate::getNCParameter('id','id','integer');
         $enable = ankix_validate::getNCParameter('enabled','enabled','integer');
         return $this->update($id,array('enabled'=>$enable));
+    }/*}}}*/
+
+    // 批量移动
+    public function batMove()
+    {/*{{{*/
+        $unit_id = ankix_validate::getNCParameter('unit_id','unit_id','integer');
+        $ids = $_POST['ids'];
+        if (empty($ids) || $unit_id==0) throw new Exception('illegal request');
+        $idstr = implode(',',$ids);
+        $sql = "UPDATE topic_unit_item SET unit_id='$unit_id' WHERE id IN ($idstr)";
+        return $this->pdo->exec($sql);
     }/*}}}*/
 
 

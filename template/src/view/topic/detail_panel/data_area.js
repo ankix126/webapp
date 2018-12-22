@@ -12,10 +12,8 @@ define(function(require){
             ]
         }).init();
 
-        require('./unit_grid').init('unit-'+domid,topicInfo);
-        require('./item_panel/page').init('item-'+domid,topicInfo);
-
-        // alert("init data-area");
+        require('./unit/page').init('unit-'+domid,topicInfo);
+        require('./unit_item/page').init('item-'+domid,topicInfo);
     };
 
     return o;

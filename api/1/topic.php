@@ -15,13 +15,20 @@ $actionlist = array(
     'queryUnit' => array(),    //!< 获取主题单元列表
     'saveUnit' => array(),     //!< 保存单元
 
-    'queryItem' => array(),    //!< 查询记录
+
 
     'saveFields' => array(),   //!< 保存字段
     'getAllFields' => array(), //!< 获取主题的全部字段
 
     'saveCard' => array(),     //!< 保存卡片
+    'removeCard' => array(),   //!< 删除卡片
     'getAllCards' => array(),  //!< 获取主题的全部卡片
+
+    'saveUnitItem' => array(),  //!< 保存Item
+    'queryUnitItem' => array(), //!< 查询Item
+    'removeUnitItem' => array(),//!< 删除Item
+    'moveItemsUnit' => array(), //!< 批量移动Item到某单元
+
 );
 ////////////////////////////////////
 $uid = $_G['uid'];
@@ -55,19 +62,25 @@ function getMyTopic()
 function queryUnit() { return C::t('#ankix#topic_unit')->query(); }
 function saveUnit() { return C::t('#ankix#topic_unit')->save(); }
 
-function queryItem() { return C::t('#ankix#topic_unit_item')->query(); }
 
-function saveFields() { return C::t('#ankix#topic_fields')->save(); }
+
+function saveFields() { return C::t('#ankix#topic')->saveFields(); }
 function getAllFields() {
     $tid = ankix_validate::getNCParameter('tid','tid','integer');
     return C::t('#ankix#topic_fields')->getAll($tid);
 }
 
 function saveCard() { return C::t('#ankix#topic_cards')->save(); }
+function removeCard() { return C::t('#ankix#topic_cards')->remove(); }
 function getAllCards() {
     $tid = ankix_validate::getNCParameter('tid','tid','integer');
     return C::t('#ankix#topic_cards')->getAll($tid); 
 }
+
+function queryUnitItem() { return C::t('#ankix#topic_unit_item')->query(); }
+function saveUnitItem() { return C::t('#ankix#topic_unit_item')->save(); }
+function removeUnitItem() { return C::t('#ankix#topic_unit_item')->remove(); }
+function moveItemsUnit() { return C::t('#ankix#topic_unit_item')->batMove(); }
 
 // vim600: sw=4 ts=4 fdm=marker syn=php
 ?>

@@ -34,29 +34,29 @@ define(function(require){
             bodyStyle : 'padding:10px;height:150px;',
             body : '<table class="mwt-formtab">'+
                '<tr>'+
-                 '<td width="90">单元名称 <b style="color:red">*</b></td>'+
+                 '<th width="90">'+lan(['unit','name'])+' <b style="color:red">*</b></th>'+
                  '<td><div id="fm-name'+dialogid+'"></div></td>'+
                  '<td class="tips" width="20"></td>'+
                '</tr>'+
                '<tr>'+
-                 '<td>单元描述</td>'+
+                 '<th>'+lan('description')+'</th>'+
                  '<td><div id="fm-description'+dialogid+'"></div></td>'+
                  '<td class="tips"></td>'+
                '</tr>'+
             '</table>',
             buttons : [
-                {label:"确定",cls:'mwt-btn-primary',handler:submitClick},
-                {label:"取消",type:'close',cls:'mwt-btn-default'}
+                {label:lan('submit'),cls:'mwt-btn-primary',handler:submitClick},
+                {label:lan('cancel'),type:'close',cls:'mwt-btn-default'}
             ]
         });
         //3. dialog open event
         dialog.on('open',function(){
             form.reset();
             if (params.id) {
-                dialog.setTitle("编辑单元");
+                dialog.setTitle(lan(["edit","unit"]));
                 form.set(params);
             } else {
-                dialog.setTitle("添加单元");
+                dialog.setTitle(lan(["add",'unit']));
             }
         });
     }/*}}}*/

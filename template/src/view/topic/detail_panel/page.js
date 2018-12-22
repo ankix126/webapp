@@ -1,10 +1,12 @@
 define(function(require){
-    var activeIdx = 0,topicInfo;
+    var activeIdx = 2,topicInfo;
     var domid,o={};
 
     var tabs = [
-        ['数据',require('./data_area')],
-        ['模板',require('./template_area')]
+        [lan(['card','field']),require('./card_field/page')],
+        [lan(['card','style']),require('./card_style/page')],
+        [lan(['card','data']),require('./data_area')],
+        [lan(['option']),require('./data_area')],
     ];
 
     function activeTab() {
@@ -27,8 +29,7 @@ define(function(require){
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'north-'+domid, region:'north', height:68,style:'background:#fff;',
-                    html:textblock.empty("选择学习集浏览记录")},
+                {id:'north-'+domid, region:'north', height:68,style:'background:#fff;'},
                 {id:'center-'+domid,region:'center',style:'background:#fff;'}
             ]
         }).init();

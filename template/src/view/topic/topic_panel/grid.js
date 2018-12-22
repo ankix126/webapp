@@ -7,7 +7,7 @@ define(function(require){
     function showList() {
         var n = store.size();
         if (n==0) {
-            textblock.empty("空空如也~",gridid);
+            textblock.empty(lan('no data'),gridid);
             return;
         }
 
@@ -39,26 +39,19 @@ define(function(require){
             var im = store.get(idx);
             if (!im) return;
             var params = {
-                tid: im.topicId,
+                id: im.topicId,
                 tname: im.topicName,
                 cate_id: im.cateId,
                 description: im.description
             };
             require('./dialog').open(params,o.query);
         });
-
         require("../detail_panel/page").showTopicDetail(topicId);
     }
 
     o.init = function(domid,_topicId){
         gridid = domid;
         topicId = _topicId;
-        // var regionOpts = dict.get_options('region',{text:'全部',value:-1});
-        // var regionMap = dict.get_map('region');
-        // var cityOpts = dict.get_options('city',{text:'全部',value:-1});
-        // var cityMap = dict.get_map('city');
-        // var stateOpts = dict.get_options('prState',{text:'全部',value:-1});
-        // var stateMap = dict.get_map('prState');
         store = new mwt.Store({
             proxy: new mwt.HttpProxy({
                 //beforeLoad : store_before_load,
@@ -67,77 +60,6 @@ define(function(require){
             })
         });
         store.on("load",showList);
-        /*
-        grid = new MWT.Grid({
-            render      : gridid,
-            store       : store,
-            pagebar     : true,     //!< 分页
-            pageSize    : 20,       //!< 每页大小
-            multiSelect : false,    //!< 多行选择
-            bordered    : false,    //!< 单元格边框
-            striped     : true,     //!< 斑马纹
-            noheader    : false,    //!< 隐藏列头
-            notoolbox   : false,    //!< 隐藏工具箱(刷新,斑马纹,导出Excel)
-            position    : 'fixed',  //!< 位置(relative:相对位置,其他:固定头部和尾部)
-            bodyStyle   : '', 
-            tbarStyle   : 'margin-bottom:10px;',
-            tbar: [
-                // {type:'select',id:'region-sel-'+gridid,label:'大区',options:regionOpts,value:-1,handler:o.query},
-                // {type:'select',id:'city-sel-'+gridid,label:'城市',options:cityOpts,value:-1,handler:o.query},
-                // {type:'select',id:'state-sel-'+gridid,label:'状态',options:stateOpts,value:-1,handler:o.query},
-                {type:'search',id:'so-key-'+gridid,width:200,handler:o.query,placeholder:'PR单号'},
-                '->'
-            ],
-            cm: new MWT.Grid.ColumnModel([
-                {head:'PR单号',dataIndex:'id',width:70,align:'left',sort:true},
-                {head:'大区',dataIndex:'regionId',width:90,align:'left',sort:true,render:function(v,item){
-                    return item.regionName;
-                }},
-                {head:'城市',dataIndex:'cityId',width:70,align:'left',sort:true,render:function(v,item){
-                    return item.cityName;
-                }},
-                {head:'PR单',dataIndex:'name',align:'left',sort:false,render:function(v,item){
-                    var url = "#/pr/detail~id="+item.id;
-                    return '<a href="'+url+'" target="_blank" class="grida">'+v+'</a>';
-                }},
-                {head:'预算单',dataIndex:'budgetId',width:120,align:'left',sort:true,render:function(v,item){
-                    return item.budgetName;
-                }},
-                {head:'请购总额',dataIndex:'amount',width:100,align:'right',sort:true,render:gridRender.money},
-                {head:'请购总数',dataIndex:'quantity',width:80,align:'right',sort:true,render:function(v,item){
-                    return number_format(v);
-                }},
-                {head:'创建时间',dataIndex:'create_at',width:120,align:'left',sort:true,render:mwt.GridRender.datetime},
-                {head:'创建人',dataIndex:'creator_name',width:80,align:'left',sort:false},
-                {head:'状态',dataIndex:'state',width:90,align:'left',sort:true,render:function(v,item){
-                    return gridRender.state(v,'prState');
-                }},
-                {head:'',dataIndex:'id',align:'right',width:70,sort:false,render:function(v,item){
-                    var cls = 'grida';
-                    var url = "#/pr/detail~id="+item.id;
-                    var viewbtn = '<a class="'+cls+'" name="viewbtn-'+gridid+'" data-id="'+v+'" href="'+url+'">查看</a>';
-                    var btns = [viewbtn];
-                    return btns.join("&nbsp;&nbsp;");
-                }}
-            ])
-        });
-        store.on('load',function(){
-            mwt.popinit();
-            // 编辑按钮
-            jQuery('[name=editbtn-'+gridid+']').unbind('click').click(editbtnClick);
-            // 删除按钮
-            jQuery('[name=delbtn-'+gridid+']').unbind('click').click(delbtnClick);
-            // 启用开关
-            jQuery('[name=adenable]').unbind('change').change(function(){
-                var id = jQuery(this).data('dtname');
-                var enable = jQuery(this).is(':checked') ? 1 : 0;
-                ajax.post('t_budget&action=setEnable',{id:id,enabled:enable},function(res){
-                    if (res.retcode!=0) mwt.notify(res.retmsg,1500,'danger');
-                    mwt.notify('已保存',1500,'success');
-                });
-            });
-        });
-        grid.create();*/
         o.query();
     };
 

@@ -51,17 +51,17 @@ define(function(require){
             //bodyStyle : 'padding:10px;',
             body : '<table class="mwt-formtab">'+
                '<tr>'+
-                 '<td width="70">分类 <b style="color:red">*</b></td>'+
+                 '<th width="70">'+lan('category')+' <b style="color:red">*</b></th>'+
                  '<td><div id="fm-cateid'+dialogid+'"></div></td>'+
                  '<td width="20" class="tips"></td>'+
                '</tr>'+
                '<tr>'+
-                 '<td>名称 <b style="color:red">*</b></td>'+
+                 '<th>'+lan('name')+' <b style="color:red">*</b></th>'+
                  '<td><div id="fm-tname'+dialogid+'"></div></td>'+
                  '<td class="tips"></td>'+
                '</tr>'+
                '<tr>'+
-                 '<td>备注</td>'+
+                 '<th>'+lan('description')+'</th>'+
                  '<td><div id="fm-description'+dialogid+'"></div></td>'+
                  '<td class="tips"></td>'+
                '</tr>'+
@@ -73,18 +73,18 @@ define(function(require){
                */
             '</table>',
             buttons : [
-                {label:"确定",cls:'mwt-btn-primary',handler:submitClick},
-                {label:"取消",type:'close',cls:'mwt-btn-default'}
+                {label:lan('submit'),cls:'mwt-btn-primary',handler:submitClick},
+                {label:lan('cancel'),type:'close',cls:'mwt-btn-default'}
             ]
         });
         //3. dialog open event
         dialog.on('open',function(){
             form.reset();
-            if (params.tid) {
-                dialog.setTitle("编辑数据集");
+            if (params.id) {
+                dialog.setTitle(lan(['edit','topic']));
                 form.set(params);
             } else {
-                dialog.setTitle("创建数据集");
+                dialog.setTitle(lan(['new','topic']));
             }
         });
     }/*}}}*/
@@ -102,7 +102,7 @@ define(function(require){
     function submitClick() {
         var data = form.getData();
         try {
-            data.tid = params.tid;
+            data.id = params.id;
             ajax.post('topic&action=saveMyTopic',data,function(res){
                 if (res.errno!=0) mwt.notify(res.errmsg,1500,'danger');
                 else {

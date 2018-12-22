@@ -21,24 +21,22 @@ define(function(require){
             multiSelect : false,    //!< 多行选择
             bordered    : false,    //!< 单元格边框
             striped     : true,     //!< 斑马纹
-            noheader    : false,    //!< 隐藏列头
+            noheader    : true,    //!< 隐藏列头
             notoolbox   : false,    //!< 隐藏工具箱(刷新,斑马纹,导出Excel)
-            position    : 'fixed',  //!< 位置(relative:相对位置,其他:固定头部和尾部)
+            //position    : 'fixed',  //!< 位置(relative:相对位置,其他:固定头部和尾部)
             emptyMsg    : textblock.empty(),
             bodyStyle   : '', 
-            tbarStyle   : 'margin-bottom:-1px;',
+            tbarStyle   : 'margin-bottom:-1px;background:none;',
             tbar: [
-                '<label class="head-title">卡片</label>',
-                '->',
-                {label:iconlabel.plus(''),cls:'mwt-btn-primary tbtn',handler:function(){
-                    dialog.open({cid:0,tid:topicId},o.query);
+                {label:lan('add'),cls:'mwt-btn-primary',handler:function(){
+                    dialog.open({id:0,tid:topicId},o.query);
                 }}
             ],
             cm: new MWT.Grid.ColumnModel([
                 {head:'',dataIndex:'store_index',width:40,align:'right',sort:false,render:function(v,item){
                     return (v+1)+'.';
                 }},
-                {head:'卡片名称',dataIndex:'cname',align:'left',sort:false,render:function(v,item){
+                {head:lan(['card','name']),dataIndex:'cname',align:'left',sort:false,render:function(v,item){
                     return v;
                 }},/*
                 {head:'正面代码',dataIndex:'front_code',width:120,align:'left',sort:false,render:function(v,item){
@@ -53,14 +51,15 @@ define(function(require){
                 {head:'卡片顺序',dataIndex:'display_order',width:120,align:'left',sort:false,render:function(v,item){
                     return v;
                 }},*/
-                {head:'操作',dataIndex:'cid',align:'right',sort:false,render:function(v,item){
-                    var cls = 'grida';
-                    var editbtn = '<a class="'+cls+'" name="editbtn-'+gridid+'" data-id="'+v+'" '+
-                        ' style="color:#999;" href="javascript:;">'+
-                        '<i class="icon icon-setting"></i>'+
-                        '</a>';
-                    var btns = [editbtn];
-                    return btns.join("&nbsp;&nbsp;");
+                {head:'',dataIndex:'id',align:'right',sort:false,render:function(v,item){
+                    var cls = 'mwt-btn mwt-btn-default mwt-btn-xs';
+                    var code = '<div class="mwt-btn-group-radius">'+
+                            '<button class="'+cls+'" name="editbtn-'+gridid+'" data-id="'+v+'">'+
+                                '<i class="icon icon-setting"></i></button>'+
+                            '<button class="'+cls+'" name="delbtn-'+gridid+'" data-id="'+v+'">'+
+                                '<i class="icon icon-trash"></i></button>'+
+                        '</div>';
+                    return code;
                 }}
             ])
         });
@@ -95,7 +94,7 @@ define(function(require){
     function editbtnClick() 
     {/*{{{*/
         var id = jQuery(this).data('id');
-        var item = grid.getRecord('cid',id);
+        var item = grid.getRecord('id',id);
         dialog.open(item,o.query);
     }/*}}}*/
 
@@ -105,8 +104,8 @@ define(function(require){
         var id = jQuery(this).data('id');
         mwt.confirm('确定要删除吗?',function(res){
             if (!res) return;
-            ajax.post('t_cards&action=remove',{id:id},function(res){
-                if (res.retcode!=0) mwt.alert(res.retmsg);
+            ajax.post('topic&action=removeCard',{id:id},function(res){
+                if (res.errno!=0) mwt.alert(res.errmsg);
                 else {
                     o.query();
                 }

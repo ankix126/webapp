@@ -66,8 +66,8 @@ iframe {width:100%;height:100%;
 .posul .possep:before {content:'/'}
 
 
-.mwt-layout-border .mwt-toolbar {border:none;}
-.head-title {color:#FF5722 !important;font:bold 12px 'Heiti SC';}
+.mwt-layout-border .mwt-toolbar {border:none;background:none;}
+.head-title {color:#FF5722 !important;font:bold 12px Arial,'Heiti SC';}
 
 
 /* */
@@ -85,7 +85,7 @@ iframe {width:100%;height:100%;
 .tabul .rt {display:inline-block;float: right;}
 
 .info-panel {padding:10px;}
-.mwt-nav>li>a {padding:6px 15px;font-size:12px;}
+.mwt-nav>li>a {padding:6px 15px;font-size:12px;height: 30px;}
 .mwt-nav-tabs>li.mwt-active>a, .mwt-nav-tabs>li.mwt-active>a:focus, .mwt-nav-tabs>li.mwt-active>a:hover {color:#03A9F4}
 
 .tbtn {font-size:12px;padding:1px 4px !important;}
@@ -95,5 +95,15 @@ iframe {width:100%;height:100%;
 .ulgrid tr {border:none !important;}
 .ulgrid .mwt-grid-body  {overflow-y: auto;}
 .ulgrid tr:hover {background:#eee;cursor:pointer;}
-.ulgrid .fa-folder {color:#FFCC80;}
+.ulgrid .fa-folder, .fa-folder {color:#FFCC80;}
 .ulgrid td {padding:5px 7px;}
+
+.mwt-formtab th { font-weight:normal;font-size: 12px; color: #676262;}
+
+
+.edit-tab {width: 100%;}
+.edit-tab th,.edit-tab td {padding:3px 10px;text-align: left;}
+.edit-tab th {font-weight: normal;background: #eee;padding: 8px 10px;color:#498603;}
+.edit-tab a {text-decoration: none;
+    font-size:12px;color:#999}
+.edit-tab a:hover {text-decoration: underline;}

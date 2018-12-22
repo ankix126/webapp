@@ -2,7 +2,7 @@ define(function(require){
     /* PR单管理 */
     var BasePage = require('core/BasePage');
     var o = new BasePage({
-        name : '浏览',
+        name : 'create',
         id   : 'topic',
     });
 

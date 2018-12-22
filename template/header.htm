@@ -1,3 +1,7 @@
+<!--{eval
+$language = C::m('#ankix#ankix_lang')->getLanguage();
+$lang = C::m('#ankix#ankix_lang')->getAll();
+}-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +12,7 @@
   <link rel="icon" href="{$plugin_path}/template/static/ankix.jpg" type="image/png">
   <link type="text/css" rel="stylesheet" href="{$plugin_path}/template/libs/mwt/4.0/mwt.min.css">
   <link type="text/css" rel="stylesheet" href="{$plugin_path}/template/src/base.css">
+  <script type="text/javascript" src="$_G['siteroot']static/js/common.js"></script>
   <script type="text/javascript" src="{$plugin_path}/template/libs/jquery/1.11.2/jquery.min.js"></script>
   <script type="text/javascript" src="{$plugin_path}/template/libs/mwt/4.0/mwt.min.js"></script>
   <script type="text/javascript" src="{$plugin_path}/template/libs/requirejs/2.1.9/require.js"></script>
@@ -22,6 +27,9 @@
   </div>
 <script>
 // 全局参数
+var charset='{CHARSET}',cookiepre='{$_G[config][cookie][cookiepre]}',cookiedomain='{$_G[config][cookie][cookiedomain]}',cookiepath='{$_G[config][cookie][cookiepath]}';
+var language='{$language}';
+var lang = {echo json_encode($lang);};
 var setting = {echo json_encode($setting);};
 var nav = {echo json_encode($nav)};
 var dz = {
@@ -50,6 +58,31 @@ function activeTopNav(name){
         }
     }
 }
+// 设置语言
+function setlang(l){setcookie('lang',l);window.location.reload();}
+
+function titleCase3(s) {
+  return s.toLowerCase().split(/\s+/).map(function(item, index) {
+    return item.slice(0, 1).toUpperCase() + item.slice(1);
+  }).join(' ');
+}
+function lan(txts,notTitleCase) {
+    if (!is_array(txts)) {
+        txts = [txts];
+    }
+    var rs = [];
+    for (var i=0;i<txts.length;++i) {
+        var txt = txts[i];
+        var v = lang[txt] ? lang[txt] : txt;
+        rs.push(v);
+    }
+    var sp = ' ';
+    if (language=='zh') sp = '';
+    var str = rs.join(sp);
+    if (notTitleCase) return str;
+    return titleCase3(str);
+}
+
 var japp=new JApp('{$plugin_path}/template/src/');
 japp.init();
 mwt.showWaterMark(dz.email);

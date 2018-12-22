@@ -72,7 +72,7 @@ textblock = {
         return code;
     },
     empty : function(msg,domid) {
-        if (!msg) msg = '空空如也~';
+        if (!msg) msg = lan('no data');
         var code = '<p style="color:gray;text-align:center;margin-top:25px;">'+msg+'</p>';
         if (domid) mwt.set_html(domid,code);
         return code;
@@ -80,7 +80,9 @@ textblock = {
 };
 
 iconlabel = {
-    plus: function(label) { return '<i class="sicon-plus"></i> '+label;}
+    plus: function(label) { return '<i class="sicon-plus"></i> '+label;},
+    move: function(label) { return '<i class="sicon-action-redo"></i> '+label;},
+    remove: function(label) { return '<i class="icon icon-trash"></i> '+label;},
 };
 
 

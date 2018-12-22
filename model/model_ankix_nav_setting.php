@@ -16,11 +16,11 @@ class model_ankix_nav_setting
         $setting = array (
             // 导航菜单
             'navmenu' => array (
-                array('newtab'=>0,'enable'=>1,'text'=>'首页','icon'=>'sicon-home','href'=>'#/'),
-                array('newtab'=>0,'enable'=>1,'text'=>'学习','icon'=>'icon icon-bulb','href'=>'#/'),
-                array('newtab'=>0,'enable'=>1,'text'=>'浏览','icon'=>'fa fa-database','href'=>'#/topic'),
-                array('newtab'=>0,'enable'=>1,'text'=>'统计','icon'=>'sicon-graph','href'=>'#/'),
-                array('newtab'=>0,'enable'=>1,'text'=>'商城','icon'=>'icon icon-cart','href'=>'#/'),
+                array('newtab'=>0,'enable'=>1,'text'=>'home','icon'=>'sicon-home','href'=>'#/'),
+                array('newtab'=>0,'enable'=>1,'text'=>'study','icon'=>'icon icon-bulb','href'=>'#/'),
+                array('newtab'=>0,'enable'=>1,'text'=>'create','icon'=>'fa fa-database','href'=>'#/topic'),
+                array('newtab'=>0,'enable'=>1,'text'=>'statistics','icon'=>'sicon-graph','href'=>'#/'),
+                array('newtab'=>0,'enable'=>1,'text'=>'mall','icon'=>'icon icon-cart','href'=>'#/'),
             )
         );
 		return $setting;

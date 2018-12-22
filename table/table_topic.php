@@ -22,16 +22,23 @@ class table_topic
     {/*{{{*/
         $sql = <<<EOF
 SELECT 
-a.tid as topicId,a.tname as topicName,a.description,
+a.id as topicId,a.tname as topicName,a.description,
 a.cateid as cateId,
 b.cname as cateName,
+a.fields as fields,
 a.status,a.uid,
 a.create_time as createTime
 FROM {$this->table} as a
 LEFT JOIN topic_category as b ON b.cid=a.cateid
-WHERE a.tid='$tid' AND a.isdel=0;
+WHERE a.id='$tid' AND a.isdel=0;
 EOF;
-        return $this->pdo->queryFirst($sql);
+        $res = $this->pdo->queryFirst($sql);
+        if (!empty($res)) {
+            $fields = json_decode($res['fields'],true);
+            if (!$fields) $fields = array();
+            $res['fields'] = $fields;
+        }
+        return $res;
     }/*}}}*/
 
 
@@ -45,7 +52,7 @@ EOF;
             "root" => array(),
         );
         $key   = ankix_validate::getNCParameter('key','key','string');
-        $sort  = ankix_validate::getOPParameter('sort','sort','string',1024,'tid');
+        $sort  = ankix_validate::getOPParameter('sort','sort','string',1024,'id');
         $dir   = ankix_validate::getOPParameter('dir','dir','string',1024,'DESC');
         $start = ankix_validate::getOPParameter('start','start','integer',1024,0);
         $limit = ankix_validate::getOPParameter('limit','limit','integer',1024,20);
@@ -54,7 +61,7 @@ EOF;
         $table = DB::table($this->_table);
         $sql = <<<EOF
 SELECT SQL_CALC_FOUND_ROWS 
-a.tid as topicId,a.tname as topicName,a.description,
+a.id as topicId,a.tname as topicName,a.description,
 a.cateid as cateId,
 b.cname as cateName,
 a.status,
@@ -76,7 +83,7 @@ EOF;
     {/*{{{*/
         global $_G;
         $uid = $_G['uid'];
-        $id = ankix_validate::getNCParameter('tid','tid','integer');
+        $id = ankix_validate::getNCParameter('id','id','integer');
         $record = array (
             'cateid' => ankix_validate::getNCParameter('cateid','cateid','integer',1024),
             'tname' => ankix_validate::getNCParameter('tname','tname','string',1024),
@@ -85,9 +92,10 @@ EOF;
         if ($id==0) {
             $record['uid'] = $uid;
             $record['create_time'] = date('Y-m-d H:i:s');
+            $record['fields'] = "[{\"k\":\"Front\",\"type\":1},{\"k\":\"Back\",\"type\":1}]";
             return $this->pdo->insert($this->table,$record);
         } else {
-            return $this->pdo->update($this->table,$record,array("tid='$id'"));
+            return $this->pdo->update($this->table,$record,array("id='$id'"));
         }
     }/*}}}*/
 
@@ -106,6 +114,18 @@ EOF;
         return $this->update($id,array('enabled'=>$enable));
     }/*}}}*/
 
+    // 保存字段JSON
+    public function saveFields()
+    {
+        $id = ankix_validate::getNCParameter('id','id','integer');
+        if (empty($_POST['fields'])) {
+            throw new Exception("fields is empty");
+        }
+        $record = array (
+            'fields' => json_encode($_POST['fields']),
+        );
+        return $this->pdo->update($this->table,$record,array("id='$id'"));
+    }
 
 }
 // vim600: sw=4 ts=4 fdm=marker syn=php
