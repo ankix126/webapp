@@ -26,6 +26,7 @@ a.id as topicId,a.tname as topicName,a.description,
 a.cateid as cateId,
 b.cname as cateName,
 a.fields as fields,
+a.options as options,
 a.status,a.uid,
 a.create_time as createTime
 FROM {$this->table} as a
@@ -34,9 +35,8 @@ WHERE a.id='$tid' AND a.isdel=0;
 EOF;
         $res = $this->pdo->queryFirst($sql);
         if (!empty($res)) {
-            $fields = json_decode($res['fields'],true);
-            if (!$fields) $fields = array();
-            $res['fields'] = $fields;
+            $res['fields'] = ankix_utils::decodeJson($res['fields']);
+            $res['options'] = ankix_utils::decodeJson($res['options']);
         }
         return $res;
     }/*}}}*/
@@ -116,7 +116,7 @@ EOF;
 
     // 保存字段JSON
     public function saveFields()
-    {
+    {/*{{{*/
         $id = ankix_validate::getNCParameter('id','id','integer');
         if (empty($_POST['fields'])) {
             throw new Exception("fields is empty");
@@ -125,7 +125,20 @@ EOF;
             'fields' => json_encode($_POST['fields']),
         );
         return $this->pdo->update($this->table,$record,array("id='$id'"));
-    }
+    }/*}}}*/
+
+    // 保存options json
+    public function saveOptions()
+    {/*{{{*/
+        $id = ankix_validate::getNCParameter('id','id','integer');
+        if (empty($_POST['options'])) {
+            throw new Exception("options is empty");
+        }
+        $record = array (
+            'options' => json_encode($_POST['options']),
+        );
+        return $this->pdo->update($this->table,$record,array("id='$id'"));
+    }/*}}}*/
 
 }
 // vim600: sw=4 ts=4 fdm=marker syn=php

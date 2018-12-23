@@ -4,7 +4,7 @@ define(function(require){
     var dialog = require('./dialog');
     var o={};
     
-    o.init = function(domid,_topicInfo){
+    o.init = function(domid,barid,_topicInfo){
         topicInfo = _topicInfo;
         gridid = domid;
         store = new mwt.Store({
@@ -14,21 +14,12 @@ define(function(require){
                 url : ajax.getAjaxUrl("topic&action=queryUnitItem")
             })
         });
-        grid = new MWT.Grid({
-            render      : gridid,
-            store       : store,
-            pagebar     : true,     //!< 分页
-            pageSize    : 20,       //!< 每页大小
-            multiSelect : true,    //!< 多行选择
-            bordered    : false,    //!< 单元格边框
-            striped     : true,     //!< 斑马纹
-            noheader    : false,    //!< 隐藏列头
-            notoolbox   : false,    //!< 隐藏工具箱(刷新,斑马纹,导出Excel)
-            position    : 'fixed',  //!< 位置(relative:相对位置,其他:固定头部和尾部)
-            bodyStyle   : '', 
-            tbarStyle   : 'margin-bottom:-1px;',
-            emptyMsg    : textblock.empty(),
-            tbar: [
+
+        // 创建工具栏
+        new mwt.ToolBar({
+            render : barid,
+            style : 'background:none',
+            items  : [
                 '<label id="title-'+gridid+'" class="head-title"></label>',
                 {type:'search',id:'so-key-'+gridid,width:300,handler:o.query,placeholder:''},
                 '->',
@@ -49,10 +40,39 @@ define(function(require){
                         mwt.notify(lan('no_record_selected'),1500,'danger');
                         return;
                     }
-                    print_r(records);
-                    dialog.open({id:0,unit_id:unitInfo.id,topic_id:topicInfo.topicId},topicInfo.fields,o.query);
+                    mwt.confirm(lan('are you sure to delete',true),function (res) {
+                        if (res) {
+                            var ids = [];
+                            for (var i=0;i<records.length;++i) {
+                                ids.push(records[i].id);
+                            }
+                            ajax.post('topic&action=removeUnitItems',{ids:ids},function(res){
+                                if (res.errno!=0) mwt.alert(res.errmsg);
+                                else {
+                                    o.query();
+                                }
+                            });
+                        }
+                    });
                 }},
-            ],
+            ]
+        }).create();
+
+        grid = new MWT.Grid({
+            render      : gridid,
+            store       : store,
+            cls         : 'rowclkgrid',
+            pagebar     : true,     //!< 分页
+            pageSize    : 20,       //!< 每页大小
+            multiSelect : true,    //!< 多行选择
+            bordered    : false,    //!< 单元格边框
+            striped     : true,     //!< 斑马纹
+            noheader    : false,    //!< 隐藏列头
+            notoolbox   : true,    //!< 隐藏工具箱(刷新,斑马纹,导出Excel)
+            position    : 'fixed',  //!< 位置(relative:相对位置,其他:固定头部和尾部)
+            bodyStyle   : '', 
+            tbarStyle   : 'margin-bottom:-1px;',
+            emptyMsg    : textblock.empty(),
             cm: new MWT.Grid.ColumnModel([
                 {head:lan('unit'),dataIndex:'unit_id',width:100,align:'left',sort:false,render:function(v,item){
                     return '<i class="fa fa-folder"></i> '+item.unit_name;
@@ -70,7 +90,11 @@ define(function(require){
                         '</div>';
                     return code;
                 }}
-            ])
+            ]),
+            rowclick: function (item) {
+                showIdx = item.store_index;
+                showItem();
+            }
         });
         store.on('load',function(){
             mwt.popinit();
@@ -87,6 +111,7 @@ define(function(require){
                     mwt.notify('已保存',1500,'success');
                 });
             });
+            showItem();
         });
         grid.create();
         //o.query();
@@ -103,18 +128,20 @@ define(function(require){
     };
 
     // 编辑按钮点击事件
-    function editbtnClick() 
+    function editbtnClick(e)
     {/*{{{*/
+        e.stopPropagation();
         var id = jQuery(this).data('id');
         var item = grid.getRecord('id',id);
         dialog.open(item,topicInfo.fields,o.query);
     }/*}}}*/
 
     // 删除按钮点击事件
-    function delbtnClick() 
+    function delbtnClick(e)
     {/*{{{*/
+        e.stopPropagation();
         var id = jQuery(this).data('id');
-        mwt.confirm('确定要删除吗?',function(res){
+        mwt.confirm(lan('are you sure to delete',true),function(res){
             if (!res) return;
             ajax.post('topic&action=removeUnitItem',{id:id},function(res){
                 if (res.errno!=0) mwt.alert(res.errmsg);
@@ -131,6 +158,15 @@ define(function(require){
         unitInfo = unit;
         jQuery('#title-'+gridid).html(unitInfo.name);
         o.query();
+    };
+
+    // 显示第i条记录
+    var showIdx = 0;
+    function showItem() {
+        var n = store.size();
+        if (showIdx>=n) { showIdx=0; }
+        var item = store.get(showIdx);
+        if (item) require('./card_preview').show(item);
     };
 
     return o;

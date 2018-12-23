@@ -53,7 +53,7 @@ EOF;
         $limit = ankix_validate::getOPParameter('limit','limit','integer',1024,20);
         $where = "a.topic_id='$tid' AND a.isdel=0";
         if ($uid!=0) $where.= " AND a.unit_id='$uid'";
-        if ($key!="") $where.=" AND (a.name like '%$key%')";
+        if ($key!="") $where.=" AND (a.fields like '%$key%')";
         $sql = <<<EOF
 SELECT SQL_CALC_FOUND_ROWS 
 a.*,b.name as unit_name
@@ -136,6 +136,15 @@ EOF;
         return $this->pdo->exec($sql);
     }/*}}}*/
 
+    // 批量删除
+    public function batRemove()
+    {/*{{{*/
+        $ids = $_POST['ids'];
+        if (empty($ids)) throw new Exception('illegal request');
+        $idstr = implode(',',$ids);
+        $sql = "UPDATE topic_unit_item SET isdel=1 WHERE id IN ($idstr)";
+        return $this->pdo->exec($sql);
+    }/*}}}*/
 
 }
 // vim600: sw=4 ts=4 fdm=marker syn=php

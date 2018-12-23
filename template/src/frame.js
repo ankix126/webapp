@@ -175,7 +175,7 @@ define(function(require){
                     e=e.replace("#/",t+"embedded=1#/");
                     window.location=e;
                 }},*/
-                {type:'select',id:"langsel",label:"",width:50,value:language,cls:'langsel',options:langOptions,handler:function(){
+                {type:'select',id:"langsel",label:'',width:50,value:language,cls:'langsel',options:langOptions,handler:function(){
                     var v = mwt.get_select_value('langsel');
                     setlang(v);
                 }},

@@ -84,5 +84,13 @@ class ankix_utils
         }
 		echo $content;
     }/*}}}*/
+
+    // 将JSON串转为array,失败为空
+    public static function decodeJson($json)
+    {
+        $res = json_decode($json,true);
+        if (empty($res)) $res = array();
+        return $res;
+    }
 }
 ?>

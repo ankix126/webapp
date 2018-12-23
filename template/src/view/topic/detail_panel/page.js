@@ -6,7 +6,7 @@ define(function(require){
         [lan(['card','field']),require('./card_field/page')],
         [lan(['card','style']),require('./card_style/page')],
         [lan(['card','data']),require('./data_area')],
-        [lan(['option']),require('./data_area')],
+        [lan(['option']),require('./option_panel/page')],
     ];
 
     function activeTab() {

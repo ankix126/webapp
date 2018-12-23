@@ -8,12 +8,14 @@ define(function(require){
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'center-'+domid,region:'center',style:'background:#fff;'}/*,
-                {id:'south-'+domid, region:'south', height:200,split:true,style:'background:#fff;border-top:solid 1px #ddd',
-                    html:textblock.empty("item detail")}*/
+                {id:'north-'+domid, region:'north',height:38,style:"background:#FBF7EB;overflow:hidden;"},
+                {id:'center-'+domid,region:'center',style:'background:#fff;'},
+                {id:'cardview-'+domid, region:'east', width:300,split:true,collapsible:true,style:'background:#fff;'}
             ]
         }).init();
-        require("./grid").init("center-"+domid, topicInfo);
+
+        require("./grid").init("center-"+domid, "north-"+domid, topicInfo);
+        require("./card_preview").init('cardview-'+domid);
     };
     return o;
 });

@@ -11,6 +11,7 @@ $actionlist = array(
     'queryMyTopic' => array(),     //!< 获取我的学习集列表
     'saveMyTopic' => array(),      //!< 保存我的学习集
     'getMyTopic' => array(),       //!< 获取我的学习集
+    'saveOptions' => array(),  //!< 保存tipic选项配置
 
     'queryUnit' => array(),    //!< 获取主题单元列表
     'saveUnit' => array(),     //!< 保存单元
@@ -27,6 +28,7 @@ $actionlist = array(
     'saveUnitItem' => array(),  //!< 保存Item
     'queryUnitItem' => array(), //!< 查询Item
     'removeUnitItem' => array(),//!< 删除Item
+    'removeUnitItems' => array(),//!< 删除Item
     'moveItemsUnit' => array(), //!< 批量移动Item到某单元
 
 );
@@ -58,6 +60,8 @@ function getMyTopic()
     $tid = ankix_validate::getNCParameter('tid','tid','integer');
     return C::m('#ankix#ankix_topic')->getMyTopic($tid);
 }
+function saveOptions() { return C::t('#ankix#topic')->saveOptions(); }
+
 
 function queryUnit() { return C::t('#ankix#topic_unit')->query(); }
 function saveUnit() { return C::t('#ankix#topic_unit')->save(); }
@@ -80,6 +84,7 @@ function getAllCards() {
 function queryUnitItem() { return C::t('#ankix#topic_unit_item')->query(); }
 function saveUnitItem() { return C::t('#ankix#topic_unit_item')->save(); }
 function removeUnitItem() { return C::t('#ankix#topic_unit_item')->remove(); }
+function removeUnitItems() { return C::t('#ankix#topic_unit_item')->batRemove(); }
 function moveItemsUnit() { return C::t('#ankix#topic_unit_item')->batMove(); }
 
 // vim600: sw=4 ts=4 fdm=marker syn=php

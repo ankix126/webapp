@@ -98,12 +98,17 @@ iframe {width:100%;height:100%;
 .ulgrid .fa-folder, .fa-folder {color:#FFCC80;}
 .ulgrid td {padding:5px 7px;}
 
+.rowclkgrid {}
+.rowclkgrid tr:hover {background:#eee;cursor:pointer;}
+
 .mwt-formtab th { font-weight:normal;font-size: 12px; color: #676262;}
 
 
 .edit-tab {width: 100%;}
 .edit-tab th,.edit-tab td {padding:3px 10px;text-align: left;}
-.edit-tab th {font-weight: normal;background: #eee;padding: 8px 10px;color:#498603;}
+.edit-tab th {font-weight: normal;background: #eee;padding: 8px 10px;}
 .edit-tab a {text-decoration: none;
     font-size:12px;color:#999}
 .edit-tab a:hover {text-decoration: underline;}
+
+.mwt-formtab .partition, .edit-tab th {color:#498603;}
