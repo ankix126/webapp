@@ -42,7 +42,7 @@ define(function(require){
             style       : 'height:130px;',
             value       : '{{Back}}',
             placeholder : '',
-            empty       : false,
+            empty       : true,
             errmsg      : "请输入背面代码,不超过1024个字符",
             checkfun    : function(v){return v.length<=1024;}
         }));
@@ -73,7 +73,7 @@ define(function(require){
                     '<td></td>'+
                   '</tr>'+
                   '<tr>'+
-                    '<th colspan="2" style="padding-top: 10px;">'+lan(['back_code'])+' <b style="color:red">*</b>'+
+                    '<th colspan="2" style="padding-top: 10px;">'+lan(['back_code'])+//' <b style="color:red">*</b>'+
                         '<div id="fm-back_code'+dialogid+'"></div></th>'+
                     '<td></td>'+
                   '</tr>'+

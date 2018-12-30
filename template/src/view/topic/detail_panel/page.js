@@ -17,7 +17,7 @@ define(function(require){
         jQuery('[name=area-'+domid+']').hide();
         var areaId = 'area-'+domid+activeIdx;
         jQuery('#'+areaId).show();
-        if (jQuery('#'+areaId).html()=='') {
+        if (jQuery('#'+areaId).html()=='' || areaId=='area-detail-frame-body2') {
             tabs[activeIdx][1].init(areaId,topicInfo);
         }
     }

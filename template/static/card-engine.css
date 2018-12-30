@@ -1,0 +1,16 @@
+
+.card-canvas {font-size:30px;}
+
+
+.card-canvas img {max-width:150px;max-height:150px;}
+
+.card-canvas .fa-play-circle {
+    font-size:28px;
+    color: #BD46D2;
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+}
+
+.front-code {padding:10px 0 20px;font: inherit;}
+.back-code {padding:20px 0;border-top:solid 1px #ccc;font: inherit;}

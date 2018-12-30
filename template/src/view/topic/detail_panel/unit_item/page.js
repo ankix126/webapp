@@ -15,7 +15,7 @@ define(function(require){
         }).init();
 
         require("./grid").init("center-"+domid, "north-"+domid, topicInfo);
-        require("./card_preview").init('cardview-'+domid);
+        require("./card_preview").init('cardview-'+domid, topicInfo);
     };
     return o;
 });

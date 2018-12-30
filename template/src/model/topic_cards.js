@@ -30,7 +30,32 @@ define(function(require){
         if (!cache[topicId]) {
             return o.syncLoad(topicId);
         }
-        return cache[id];
+        return cache[topicId];
+    };
+
+    // 获取主题的全部卡片选项列表
+    o.getOptions=function(id) {
+        var list = o.getAll(id);
+        var res = [];
+        for (var i=0;i<list.length;++i) {
+            var im = list[i];
+            var opt = {
+                text: im.cname,
+                value: im.id
+            };
+            res.push(opt);
+        }
+        return res;
+    };
+
+    // 获取某个卡片详情
+    o.getCard = function(topicId, cardId) {
+        var list = o.getAll(topicId);
+        for (var i=0;i<list.length;++i) {
+            var im = list[i];
+            if (im.id==cardId) return im;
+        }
+        return null;
     };
 
 
