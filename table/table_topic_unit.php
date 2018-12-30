@@ -17,6 +17,35 @@ class table_topic_unit
         $this->pdo = ankix_env::getpdo('db_ankix_base');
     }
 
+    // 获取单元信息及单元的主题信息
+    public function getUnitInfo($unitId)
+    {/*{{{*/
+        $sql = <<<EOF
+SELECT 
+a.id as unitId,
+a.name as unitName,
+a.cover_img as coverImage,
+a.description as unitDesc,
+a.status as unitStatus,
+b.id as topicId,
+b.tname as topicName,
+b.fields as cardFields,
+b.options
+FROM {$this->table} as a
+LEFT JOIN topic as b ON b.id=a.tid
+WHERE a.id='{$unitId}' AND a.isdel=0 AND b.isdel=0
+EOF;
+        $res = $this->pdo->queryFirst($sql);
+        if (!empty($res)) {
+            $res["cardFields"] = json_decode($res['cardFields']);
+            $res["options"] = json_decode($res['options']);
+
+            $res["cardStyles"] = C::t('#ankix#topic_cards')->getAll($res['topicId']);
+        }
+        return $res;
+    }/*}}}*/
+
+
     // 获取Topic
     public function getByTopicId($tid)
     {/*{{{*/
@@ -64,6 +93,12 @@ EOF;
         $return["root"] = $this->pdo->queryAll($sql);
         $row = $this->pdo->queryFirst("SELECT FOUND_ROWS() AS total");
         $return["totalProperty"] = $row["total"];
+        //////////////////////////////////////////
+        //
+        foreach ($return["root"] as &$item) {
+            $item["unit"] = ankix_utils::encodeId($item[id]);
+        }
+        //////////////////////////////////////////
         return $return;
     }/*}}}*/
 

@@ -45,7 +45,6 @@ define(function(require){
         var cardInfo = topicCardsModel.getCard(topicInfo.topicId, cardId);
         if (!cardInfo) { return; }
 
-
         var frontCode = cardInfo.front_code;
         var backCode = cardInfo.back_code;
         for (var i=0;i<topicInfo.fields.length;++i) {
@@ -72,7 +71,8 @@ define(function(require){
             '</div>';
         jQuery('#'+elid).html(code);
 
-        jQuery("[name=card-audio]").audio();
+        var audio = jQuery("[name=card-audio]").audio();
+        audio.play();
     };
 
     return o;

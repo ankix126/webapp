@@ -35,6 +35,25 @@ EOF;
     }/*}}}*/
 
 
+    // 获取单元的全部数据
+    public function getAllByUnitId($unitId)
+    {/*{{{*/
+        $sql = <<<EOF
+SELECT 
+a.id as itemId,
+a.fields as dataFields
+FROM {$this->table} as a
+WHERE a.unit_id='$unitId' AND isdel=0
+EOF;
+        $res = $this->pdo->queryAll($sql);
+        foreach ($res as &$item) {
+            $item['dataFields'] = $this->decodeFields($item['dataFields']);
+        }
+        return $res;
+    }/*}}}*/
+
+
+
     // 查询接口
     public function query()
     {/*{{{*/

@@ -87,10 +87,23 @@ class ankix_utils
 
     // 将JSON串转为array,失败为空
     public static function decodeJson($json)
-    {
+    {/*{{{*/
         $res = json_decode($json,true);
         if (empty($res)) $res = array();
         return $res;
+    }/*}}}*/
+
+    // 加密ID
+    public static function encodeId($str,$key="ankix") 
+    {
+        $res = authcode($str,'ENCODE',$key);
+        return preg_replace("/\+/i",'-',$res);
+    }
+    // 解密ID
+    public static function decodeId($str,$key="ankix")
+    {
+        $str = preg_replace("/-/i",'+',$str);
+        return authcode($str,'DECODE',$key);
     }
 }
 ?>

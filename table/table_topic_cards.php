@@ -21,7 +21,8 @@ class table_topic_cards
     public function getAll($tid)
     {/*{{{*/
         $sql = <<<EOF
-SELECT *
+SELECT 
+*
 FROM {$this->table} as a
 WHERE tid='$tid' AND isdel=0
 EOF;

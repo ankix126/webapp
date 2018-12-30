@@ -1,0 +1,99 @@
+<!--{eval
+$language = C::m('#ankix#ankix_lang')->getLanguage();
+$lang = C::m('#ankix#ankix_lang')->getAll();
+}-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{$unitInfo[unitName]}</title>
+    <link rel="icon" href="{$plugin_path}/template/static/ankix.jpg" type="image/png">
+    <link type="text/css" rel="stylesheet" href="{$plugin_path}/template/libs/mwt/4.0/mwt_mobile.min.css">
+    <link type="text/css" rel="stylesheet" href="{$plugin_path}/template/libs/swiper/3.3.1/swiper.css">
+    <link type="text/css" rel="stylesheet" href="{$plugin_path}/template/static/card-engine.css">
+    <script type="text/javascript" src="$_G['siteroot']static/js/common.js"></script>
+    <script type="text/javascript" src="{$plugin_path}/template/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{$plugin_path}/template/libs/mwt/4.0/mwt_mobile.min.js"></script>
+    <script type="text/javascript" src="{$plugin_path}/template/libs/swiper/3.3.1/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="{$plugin_path}/template/static/card-engine.js"></script>
+    <style>
+        html,body {position: relative;height:100%;}
+    </style>
+</head>
+<body>
+
+  <div id="cover" style="padding: 20px;">
+      <h1 style="text-align: center">{$unitInfo[unitName]}</h1>
+      <div id="options-div"></div>
+      <button id="startbtn" class="mwt-btn mwt-btn-block mwt-btn-primary">Start</button>
+  </div>
+
+  <div id="card-engine-div" style="width:100%;height:100%;display:none;"></div>
+
+<script>
+
+var cardInfo = {echo json_encode($unitInfo)};
+
+var cardEngine;
+var activeStyleIndex = 0;
+
+function initEngineOptions() {
+
+    var styleSels = [];
+    for (var i=0;i<cardInfo.cardStyles.length;++i) {
+        var im = cardInfo.cardStyles[i];
+        var active = i==activeStyleIndex ? ' active' : '';
+        var code = '<button name="styleSelBtn" data-idx="'+i+'" '+
+                'class="mwt-btn mwt-btn-default '+active+'">'+im.cname+'</button>';
+        styleSels.push(code);
+    }
+
+    var code = '<div class="weui_cells weui_cells_form">'+
+            '<div class="weui_cell">'+
+            '<div class="weui_cell_hd"><label class="weui_label" style="width:100px">卡片样式</label></div>'+
+            '<div class="weui_cell_bd weui_cell_primary"></div>'+
+                styleSels.join('')+
+            '</div>'+
+    '</div>';
+    jQuery('#options-div').html(code);
+
+    jQuery('[name=styleSelBtn]').unbind('click').click(function(){
+        jQuery('[name=styleSelBtn]').removeClass("active");
+        jQuery(this).addClass('active');
+        activeStyleIndex = jQuery(this).data('idx');
+    });
+}
+
+
+jQuery(document).ready(function(){
+
+    // 初始化播放参数选项
+    initEngineOptions();
+
+
+    jQuery('#startbtn').unbind('click').click(function(){
+        jQuery('#cover').hide();
+        jQuery('#card-engine-div').show();
+        cardEngine = new CardEngine({
+            elid: 'card-engine-div',
+            cardFields: cardInfo.cardFields,
+            cardStyle: cardInfo.cardStyles[activeStyleIndex],
+            cardData: cardInfo.cardData,
+            callback: endEngine,
+        });
+        cardEngine.init();
+    });
+});
+
+
+function endEngine() {
+    jQuery('#cover').show();
+    jQuery('#card-engine-div').hide();
+}
+
+
+</script>
+</body>
+</html>

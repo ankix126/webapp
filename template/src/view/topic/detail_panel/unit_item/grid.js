@@ -14,6 +14,7 @@ define(function(require){
                 url : ajax.getAjaxUrl("topic&action=queryUnitItem")
             })
         });
+        var cardFields = topicInfo.fields;
 
         // 创建工具栏
         new mwt.ToolBar({
@@ -78,7 +79,14 @@ define(function(require){
                     return '<i class="fa fa-folder"></i> '+item.unit_name;
                 }},
                 {head:'Data',dataIndex:'fields',align:'left',sort:false,render:function(v,item){
-                    return v.join("\t");
+                    var txts = [];
+                    for (var i=0;i<cardFields.length;++i) {
+                        var field = cardFields[i];
+                        if (!v[i]) break;
+                        if (field.type>2) continue;
+                        txts.push(v[i]);
+                    }
+                    return txts.join('\t');
                 }},
                 {head:'',dataIndex:'id',width:120,align:'right',sort:false,render:function(v,item){
                     var cls = 'mwt-btn mwt-btn-default mwt-btn-xs';

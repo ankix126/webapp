@@ -49,21 +49,29 @@ define(function(require){
                 /*{head:'顺序',dataIndex:'display_order',width:120,align:'left',sort:false,render:function(v,item){
                     return v;
                 }},*/
-                {head:'操作',dataIndex:'id',width:30,align:'right',sort:false,render:function(v,item){
+                {head:'操作',dataIndex:'id',width:60,align:'right',sort:false,render:function(v,item){
                     if (v==0) return '';
                     var cls = 'grida';
                     var editbtn = '<a class="'+cls+'" name="editbtn-'+gridid+'" data-id="'+v+'" '+
                         ' style="color:#999;" href="javascript:;">'+
                             '<i class="icon icon-setting"></i>'+
                         '</a>';
+                    var url = dz.siteurl+'plugin.php?id=ankix:flashcard&unit='+item.unit;
+                    var viewbtn = '<a name="viewbtn-'+gridid+'" class="'+cls+'" href="'+url+'" target="_blank">'+
+                            '<i class="sicon-eye"></i>'+
+                        '</a>';
                     // var delbtn = '<a name="delbtn-'+gridid+'" data-id="'+v+'" href="javascript:;">删除</a>';
-                    var btns = [editbtn];
+                    var btns = [viewbtn,editbtn];
                     return btns.join("&nbsp;&nbsp;");
                 }}
             ])
         });
         store.on('load',function(){
             mwt.popinit();
+            // 查看按钮
+            jQuery('[name=viewbtn-'+gridid+']').unbind('click').click(function(e){
+                e.stopPropagation();
+            });
             // 编辑按钮
             jQuery('[name=editbtn-'+gridid+']').unbind('click').click(editbtnClick);
             // 删除按钮
