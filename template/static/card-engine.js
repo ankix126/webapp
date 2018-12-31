@@ -136,7 +136,9 @@ function CardEngine(opts)
         var slides = [];
         for (var i=0;i<cardData.length; ++i) {
             var code = '<div id="slide-'+i+'" class="swiper-slide">'+
-                    '<i class="icon icon-loading fa fa-spin fa-2x" style="color:#999"></i>'+
+                    '<div style="padding-top: 50px;">'+
+                        '<i class="icon icon-loading fa fa-spin fa-2x" style="color:#999"></i>'+
+                    '</div>'+
                 '</div>';
             slides.push(code);
         }
@@ -144,7 +146,7 @@ function CardEngine(opts)
             '<div class="swiper-wrapper">'+
                 slides.join('')+
                 '<div id="slide-end" class="swiper-slide">'+
-                  '<div>'+
+                  '<div style="padding-top: 50px;">'+
                     '<h2>The End</h2>'+
                     '<button id="endbtn" class="mwt-btn mwt-btn-default">返回(Back)</button>'+
                   '</div>'+

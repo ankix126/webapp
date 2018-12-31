@@ -9,8 +9,8 @@ define(function(require){
     var urlmap=require('core/urlmap');
 
     var pages = [
+        require('view/study/page'), //!< 学习
         require('view/topic/page'), //!< 浏览
-//        require('view/pr/detail/page'), //!< PR单详情
 
         require('view/index/page')  //!< 默认首页
     ];

@@ -1,0 +1,23 @@
+
+.study-tab {width:100%;}
+
+.study-tab th,.study-tab td {
+    text-align: left;
+    padding: 5px 10px;
+
+}
+
+.study-tab .rt {text-align: right;}
+
+.study-tab th {color:#EF6C00;font-weight:normal;
+    border-bottom: solid 1px #ccc;
+}
+
+.study-tab tr.partition {
+    background: #E0E0E0;
+}
+
+
+.stat-new {color:blue;font-size:13px;}
+.stat-learning {color:red;font-size:13px;}
+.stat-review {color:green;font-size:13px;}

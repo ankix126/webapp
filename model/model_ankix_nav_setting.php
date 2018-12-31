@@ -17,7 +17,7 @@ class model_ankix_nav_setting
             // 导航菜单
             'navmenu' => array (
                 array('newtab'=>0,'enable'=>1,'text'=>'home','icon'=>'sicon-home','href'=>'#/'),
-                array('newtab'=>0,'enable'=>1,'text'=>'study','icon'=>'icon icon-bulb','href'=>'#/'),
+                array('newtab'=>0,'enable'=>1,'text'=>'study','icon'=>'icon icon-bulb','href'=>'#/study'),
                 array('newtab'=>0,'enable'=>1,'text'=>'create','icon'=>'fa fa-database','href'=>'#/topic'),
                 array('newtab'=>0,'enable'=>1,'text'=>'statistics','icon'=>'sicon-graph','href'=>'#/'),
                 array('newtab'=>0,'enable'=>1,'text'=>'mall','icon'=>'icon icon-cart','href'=>'#/'),
