@@ -17,6 +17,35 @@ class table_study
         $this->pdo = ankix_env::getpdo('db_ankix_base');
     }
 
+    public function getById($id)
+    {
+        $sql = <<<EOF
+SELECT 
+c.id as topicId,
+c.cateid as topicCateId,
+c.tname as topicName,
+c.cover_img as topicImg,
+c.description as topicDesc,
+b.id as unitId,
+b.name as unitName,
+b.cover_img as unitImg,
+b.description as unitDesc,
+a.id as studyId,
+a.unit_id as unitId,
+a.stat_new as statNew,
+a.stat_learning as statLearning,
+a.stat_review as statReview,
+a.uid
+FROM study as a
+LEFT JOIN topic_unit as b ON b.id=a.unit_id
+LEFT JOIN topic as c ON c.id=b.tid
+WHERE a.id='$id' AND a.isdel=0
+EOF;
+        return $this->pdo->queryFirst($sql);
+    }
+
+
+
     // 获取我购买的全部主题
     public function getAllMyTopics($uid) 
     {
@@ -81,6 +110,7 @@ EOF;
                 'statReview' => intval($item['statReview']),
                 'uid' => $item['uid'],
                 'viewUrl' => $mUrl->getUnitViewUrl($item['unitId']),
+                'studyUrl' => $mUrl->getStudyUrl($item['studyId']),
             );
         }
         return $resMap;

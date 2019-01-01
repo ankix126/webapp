@@ -53,7 +53,7 @@ define(function(require){
                     '<td class="rt"><b class="stat-learning">'+studyInfo.statLearning+'</b></td>'+
                     '<td class="rt"><b class="stat-review">'+studyInfo.statReview+'</b></td>'+
                     '<td class="rt">'+
-                        '<a href="'+studyInfo.viewUrl+'" target="_blank" '+
+                        '<a href="'+studyInfo.studyUrl+'" target="_blank" '+
                             'class="mwt-btn mwt-btn-default mwt-btn-xs">'+lan('study')+'</a>'+
                         '&nbsp;&nbsp;'+
                         '<a href="'+studyInfo.viewUrl+'" target="_blank" '+

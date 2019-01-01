@@ -44,6 +44,8 @@ function Card(opts)
     var formatCode="";
     var fields=[];
     var data={};
+    var playMode = 1;
+    var feedback = null;
     if (opts) {
         if(opts.elid) elid=opts.elid;
         if(opts.frontCode) frontCode=opts.frontCode;
@@ -51,6 +53,8 @@ function Card(opts)
         if(opts.formatCode) formatCode=opts.formatCode;
         if(opts.fields) fields=opts.fields;
         if(opts.data) data=opts.data;
+        if(opts.playMode) playMode=opts.playMode;
+        if(opts.feedback) feedback=opts.feedback;
     }
 
     function getDataMap() {
@@ -72,10 +76,9 @@ function Card(opts)
     var audios = [];
 
     this.init=function() {
-
+        //1. 处理front和back代码
         var front = frontCode;
         var back = backCode;
-
         var dataMap = getDataMap();
         for (var k in dataMap) {
             var item = dataMap[k];
@@ -88,15 +91,57 @@ function Card(opts)
             front = front.replaceAll(kvariable,v);
             back = back.replaceAll(kvariable,v);
         }
+        //2. 根据是否有back和播放模式来做不同控制
+        var backStyle = '';
+        var controlBar = '';
+        // 记忆模式
+        if (playMode==2) {
+            backStyle = 'style="display:none;"';  //!< 隐藏答案
+            // 如果有答案先显示按钮
+            var showAnswerCode = '';
+            if (backCode!='') {
+                showAnswerCode = '<div class="mwt-btn-group-radius" id="showanswer-'+elid+'">'+
+                    '<button id="showAnswerBtn-'+elid+'" class="mwt-btn mwt-btn-primary radius">'+
+                        lan('show answer')+'</button>'+
+                '</div>';
+            }
+            // 根据是否有答案决定是否直接显示反馈按钮
+            var feedbackStyle = showAnswerCode=='' ? '' : ' style="display: none;"';
+            // 控制工具栏
+            controlBar = '<div class="control-bar">'+
+                showAnswerCode+
+                '<div class="mwt-btn-group-radius" id="feedback-'+elid+'"'+feedbackStyle+'>'+
+                    '<button name="feedbtn-'+elid+'" data-v="1" class="mwt-btn mwt-btn-default">'+lan('again')+'</button>'+
+                    '<button name="feedbtn-'+elid+'" data-v="2" class="mwt-btn mwt-btn-default">'+lan('hard')+'</button>'+
+                    '<button name="feedbtn-'+elid+'" data-v="3" class="mwt-btn mwt-btn-primary">'+lan('good')+'</button>'+
+                    '<button name="feedbtn-'+elid+'" data-v="4" class="mwt-btn mwt-btn-default">'+lan('easy')+'</button>'+
+                '</div>'+
+            '</div>';
+        }
 
         var code = '<div class="card-canvas" style="text-align:center;padding:15px 0;">'+
             '<style>'+formatCode+'</style>'+
             '<div class="card">'+
                 '<div class="front-code">'+front+'</div>'+
-                (backCode==''?'':'<div class="back-code">'+back+'</div>')+
+                (backCode==''?'':'<div id="answer-'+elid+'" class="back-code" '+backStyle+'>'+back+'</div>')+
             '</div>'+
+            controlBar+
         '</div>';
+
         jQuery('#'+elid).html(code);
+
+        // 显示答案
+        jQuery('#showAnswerBtn-'+elid).unbind('click').click(function(){
+            jQuery('#answer-'+elid).show();
+            jQuery('#feedback-'+elid).show();
+            jQuery('#showanswer-'+elid).hide();
+        });
+
+        // 反馈
+        jQuery('[name=feedbtn-'+elid+']').unbind('click').click(function () {
+            var v = jQuery(this).data('v');
+            if (feedback) feedback(v);
+        });
 
         var audio = jQuery("#card-audio-"+elid).audio();
         audios.push(audio);
@@ -119,13 +164,18 @@ function CardEngine(opts)
     var cardStyle;
     var cardData;
     var cardSlides=[];
+    var playMode = 1;
     var callback;
+    var feedback;
+    var mySwiper;
     if (opts) {
         if (opts.elid) elid = opts.elid;
         if (opts.cardFields) cardFields = opts.cardFields;
         if (opts.cardStyle) cardStyle = opts.cardStyle;
         if (opts.cardData) cardData = opts.cardData;
         if (opts.callback) callback = opts.callback;
+        if (opts.playMode) playMode = opts.playMode;
+        if (opts.feedback) feedback = opts.feedback;
     }
     this.control = {
         activeIndex: 0
@@ -176,7 +226,7 @@ function CardEngine(opts)
         });
 
 
-        var mySwiper = new Swiper('#container-'+elid, {
+        mySwiper = new Swiper('#container-'+elid, {
             // autoplay: 5000,
             nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
@@ -215,6 +265,15 @@ function CardEngine(opts)
                 formatCode: cardStyle.format_code,
                 fields: cardFields,
                 data: cardItem,
+                playMode: playMode,
+                feedback: function(v) {
+                    //alert(activeIndex+":"+v);
+                    if (feedback) {
+                        var cardItem = cardData[activeIndex];
+                        feedback(cardItem.itemId,v);
+                    }
+                    mySwiper.slideNext();
+                }
             });
             cardSlides[activeIndex].init();
         }

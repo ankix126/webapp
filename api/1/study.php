@@ -9,6 +9,8 @@ if (!defined('IN_ANKIX_API')) {
 // action的用户组列表（空表示全部用户组）
 $actionlist = array(
     'queryMyStudy' => array(),     //!< 获取我的全部学习集
+
+    'saveFeedback' => array(),     //!< 保存学习反馈
 );
 ////////////////////////////////////
 $uid = $_G['uid'];
@@ -37,6 +39,9 @@ function queryMyStudy()
     global $uid;
     return C::t('#ankix#study')->getAllMyUnits($uid);
 }
+
+
+function saveFeedback() { return C::t('#ankix#study_item')->saveFeedback(); }
 
 // vim600: sw=4 ts=4 fdm=marker syn=php
 ?>

@@ -1,0 +1,40 @@
+<!--{eval
+$language = C::m('#ankix#ankix_lang')->getLanguage();
+$lang = C::m('#ankix#ankix_lang')->getAll();
+}-->
+<script>
+// 全局参数
+var charset='{CHARSET}',cookiepre='{$_G[config][cookie][cookiepre]}',cookiedomain='{$_G[config][cookie][cookiedomain]}',cookiepath='{$_G[config][cookie][cookiepath]}';
+var language='{$language}';
+var lang = {echo json_encode($lang);};
+var dz = {
+    ajaxapi: '{$plugin_path}/index.php?version=4&module=',
+    uid: $_G[uid]
+};
+// 设置语言
+function setlang(l){setcookie('lang',l);window.location.reload();}
+// 首字母大写
+function titleCase3(s) {
+  return s.toLowerCase().split(/\s+/).map(function(item, index) {
+    return item.slice(0, 1).toUpperCase() + item.slice(1);
+  }).join(' ');
+}
+function lan(txts,notTitleCase) {
+    if (!is_array(txts)) {
+        txts = [txts];
+    }
+    var rs = [];
+    for (var i=0;i<txts.length;++i) {
+        var txt = txts[i];
+        var v = lang[txt] ? lang[txt] : txt;
+        rs.push(v);
+    }
+    var sp = ' ';
+    if (language=='zh') sp = '';
+    var str = rs.join(sp);
+    if (notTitleCase) return str;
+    return titleCase3(str);
+}
+</script>
+
+
