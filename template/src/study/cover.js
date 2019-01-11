@@ -1,5 +1,6 @@
 define(function(require){
     /* 封面 */
+	var activeStyleIndex=0;
     var domid,o={};
 
     // 统计区域
@@ -82,7 +83,8 @@ define(function(require){
         //4. 按钮
         jQuery('#startbtn-'+domid).unbind('click').click(function(){
             jQuery('#'+domid).hide();
-            require('./engine').start();
+			var cardStyle=cardInfo.cardStyles[activeStyleIndex];
+            require('./engine').start(cardStyle);
         });
 	};
 

@@ -46,6 +46,7 @@ function Card(opts)
     var data={};
     var playMode = 1;
     var feedback = null;
+	var cardIdx = 0;
     if (opts) {
         if(opts.elid) elid=opts.elid;
         if(opts.frontCode) frontCode=opts.frontCode;
@@ -55,6 +56,7 @@ function Card(opts)
         if(opts.data) data=opts.data;
         if(opts.playMode) playMode=opts.playMode;
         if(opts.feedback) feedback=opts.feedback;
+		if(opts.cardIdx) cardIdx=opts.cardIdx;
     }
 
     function getDataMap() {
@@ -140,7 +142,7 @@ function Card(opts)
         // 反馈
         jQuery('[name=feedbtn-'+elid+']').unbind('click').click(function () {
             var v = jQuery(this).data('v');
-            if (feedback) feedback(v);
+            if (feedback) feedback(v,cardIdx);
         });
 
         var audio = jQuery("#card-audio-"+elid).audio();
@@ -159,9 +161,9 @@ function Card(opts)
 // 卡片播放引擎
 function CardEngine(opts)
 {
+    this.cardStyle;
     var elid;
     var cardFields;
-    var cardStyle;
     var cardData;
     var cardSlides=[];
     var playMode = 1;
@@ -171,7 +173,7 @@ function CardEngine(opts)
     if (opts) {
         if (opts.elid) elid = opts.elid;
         if (opts.cardFields) cardFields = opts.cardFields;
-        if (opts.cardStyle) cardStyle = opts.cardStyle;
+        if (opts.cardStyle) this.cardStyle = opts.cardStyle;
         if (opts.cardData) cardData = opts.cardData;
         if (opts.callback) callback = opts.callback;
         if (opts.playMode) playMode = opts.playMode;
@@ -183,6 +185,7 @@ function CardEngine(opts)
 
     // 初始化
     this.init=function () {
+		this.control.activeIndex = 0;
         var slides = [];
         for (var i=0;i<cardData.length; ++i) {
             var code = '<div id="slide-'+i+'" class="swiper-slide">'+
@@ -241,8 +244,36 @@ function CardEngine(opts)
             thiso.control.activeIndex = swiper.activeIndex;
             thiso.showSlide();
         });
-
+		
         cardSlides=[];
+		///////////////////////////////////////////
+		// 为解决iOS下音频无法自动播发问题
+        // 在点击开始按钮的事件中，初始化好所有卡片
+		var cardStyle = this.cardStyle;
+		for (var i=0;i<cardData.length; ++i) {
+			var cardItem = cardData[i];
+			cardSlides[i] = new Card({
+                elid: 'slide-'+i,
+                frontCode: cardStyle.front_code,
+                backCode: cardStyle.back_code,
+                formatCode: cardStyle.format_code,
+                fields: cardFields,
+                data: cardItem,
+                playMode: playMode,
+				cardIdx: i,
+                feedback: function(v,i) {
+                    //alert(activeIndex+":"+v);
+                    if (feedback) {
+                        var cardItem = cardData[i];
+                        feedback(cardItem.itemId,v);
+                    }
+                    mySwiper.slideNext();
+                }
+			});
+            cardSlides[i].init();
+		}
+		///////////////////////////////////////////
+
 
         this.showSlide();
     };
@@ -258,6 +289,7 @@ function CardEngine(opts)
 
         //2. 当前slide第一次显示
         if (!isset(cardSlides[activeIndex])) {
+			var cardStyle = this.cardStyle;
             cardSlides[activeIndex] = new Card({
                 elid: 'slide-'+activeIndex,
                 frontCode: cardStyle.front_code,

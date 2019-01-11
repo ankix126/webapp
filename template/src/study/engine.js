@@ -20,8 +20,9 @@ define(function(require){
 	};
 
     // 开始引擎
-    o.start = function() {
+    o.start = function(cardStyle) {
         jQuery('#'+domid).show();
+		engine.cardStyle=cardStyle;
         engine.init();
     };
 
