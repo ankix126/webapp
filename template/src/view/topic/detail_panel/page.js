@@ -29,7 +29,7 @@ define(function(require){
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'north-'+domid, region:'north', height:68,style:'background:#fff;'},
+                {id:'north-'+domid, region:'north', height:70,style:'background:#fff;'},
                 {id:'center-'+domid,region:'center',style:'background:#fff;'}
             ]
         }).init();
