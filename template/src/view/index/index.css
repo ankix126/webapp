@@ -17,6 +17,8 @@
 }
 .infotb label {color:#999;margin-right:10px;}
 .infotb label:after {content:'：';}
+.infotb .tip {color:#999;}
+.infotb select {width:100% !important;}
 
 h1 {font-size:20px;}
 

@@ -20,7 +20,7 @@ try {
     //2. api目录中找对应模块
     $modules = array (
         'admin','seccode','uc','dict',
-        'topic','study',
+        'topic','study','upload',
     );
     if(!in_array($_GET['module'], $modules)) {
         throw new Exception("module not found[$module]");
