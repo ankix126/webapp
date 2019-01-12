@@ -111,6 +111,7 @@ EOF;
         $record = array (
             'name' => ankix_validate::getNCParameter('name','name','string',50),
             'description' => ankix_validate::getNCParameter('description','description','string',1024),
+            'cover_img' => ankix_validate::getNCParameter('cover_img','cover_img','string',1024),
         ); 
         if ($id==0) {
             $record['tid'] = ankix_validate::getNCParameter('tid','tid','integer');
@@ -129,12 +130,14 @@ EOF;
         return $this->update($id,array('isdel'=>1));
     }/*}}}*/
 
-    // 设置保存
-    public function setEnable()
+    // 保存状态
+    public function saveStatus()
     {/*{{{*/
         $id = ankix_validate::getNCParameter('id','id','integer');
-        $enable = ankix_validate::getNCParameter('enabled','enabled','integer');
-        return $this->update($id,array('enabled'=>$enable));
+        $record = array (
+            'status' => ankix_validate::getNCParameter('status','status','integer'),
+        );
+        return $this->pdo->update($this->table,$record,array("id='$id'"));
     }/*}}}*/
 
 

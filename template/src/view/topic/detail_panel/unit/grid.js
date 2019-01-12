@@ -40,20 +40,25 @@ define(function(require){
                 }}
             ],
             cm: new MWT.Grid.ColumnModel([
-                {head:'单元',dataIndex:'name',align:'left',sort:false,render:function(v,item){
+                {head:'单元',dataIndex:'name',width:90,align:'left',sort:false,render:function(v,item){
                     if (item.id==0) {
                         return '<i class="fa fa-folder"></i> '+v;
                     }
-                    return '<i style="margin-left:15px;" class="fa fa-folder"></i> '+v;
+                    var code = '<img src="'+item.cover_img+'" class="grid-unit-cover"/>';
+                    return code;
+//                    return '<i style="margin-left:15px;" class="fa fa-folder"></i> '+v;
                 }},
                 /*{head:'顺序',dataIndex:'display_order',width:120,align:'left',sort:false,render:function(v,item){
                     return v;
                 }},*/
-                {head:'操作',dataIndex:'id',width:60,align:'right',sort:false,render:function(v,item){
+                {head:'',dataIndex:'id',align:'center',style:'vertical-align:top;text-align:center',sort:false,
+                 render:function(v,item){
                     if (v==0) return '';
-                    var cls = 'grida';
+                    //////////////////////////////////
+                    // 操作按钮
+                    var cls = 'mwt-btn mwt-btn-primary mwt-btn-xs grid-unit-btn';
                     var editbtn = '<a class="'+cls+'" name="editbtn-'+gridid+'" data-id="'+v+'" '+
-                        ' style="color:#999;" href="javascript:;">'+
+                        ' style="href="javascript:;">'+
                             '<i class="icon icon-setting"></i>'+
                         '</a>';
                     var url = dz.siteurl+'plugin.php?id=ankix:flashcard&unit='+item.unit;
@@ -62,7 +67,18 @@ define(function(require){
                         '</a>';
                     // var delbtn = '<a name="delbtn-'+gridid+'" data-id="'+v+'" href="javascript:;">删除</a>';
                     var btns = [viewbtn,editbtn];
-                    return btns.join("&nbsp;&nbsp;");
+                    //////////////////////////////////
+                    // 上下架
+                    var checked = (item.status==2) ? 'checked' : ''; 
+                    var pubcode = '<span style="vertical-align: super;color:#999;">上架: </span>'+
+                        '<label class="mwt-cbx-switch-plain" style="width:40px;height:18px;">'+
+                        '<input name="adenable-'+gridid+'" type="checkbox" data-dtname="'+item.id+'" '+checked+'>'+
+                    '<span><i></i></span></label>';
+                    //////////////////////////////////
+                    var code = '<p class="grid-unit-title">'+item.name+'</p>'+
+                        '<div sytle="margin-bottom:5px;">'+pubcode+'</div>'+
+                        '<div class="mwt-btn-group-radius">'+btns.join('')+'</div>';
+                    return code;
                 }}
             ])
         });
@@ -77,12 +93,13 @@ define(function(require){
             // 删除按钮
             jQuery('[name=delbtn-'+gridid+']').unbind('click').click(delbtnClick);
             // 启用开关
-            jQuery('[name=adenable]').unbind('change').change(function(){
+            jQuery('[name=adenable-'+gridid+']').unbind('change').change(function(e){
+                e.stopPropagation();
                 var id = jQuery(this).data('dtname');
-                var enable = jQuery(this).is(':checked') ? 1 : 0;
-                ajax.post('t_fields&action=setEnable',{id:id,enabled:enable},function(res){
-                    if (res.retcode!=0) mwt.notify(res.retmsg,1500,'danger');
-                    mwt.notify('已保存',1500,'success');
+                var enable = jQuery(this).is(':checked') ? 2 : 1;
+                ajax.post('topic&action=saveUnitStatus',{id:id,status:enable},function(res){
+                    if (res.errno!=0) mwt.notify(res.errmsg,1500,'danger');
+                    else mwt.notify('已保存',1500,'success');
                 });
             });
 

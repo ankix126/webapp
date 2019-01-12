@@ -13,10 +13,9 @@ $actionlist = array(
     'getMyTopic' => array(),       //!< 获取我的学习集
     'saveOptions' => array(),  //!< 保存tipic选项配置
 
-    'queryUnit' => array(),    //!< 获取主题单元列表
-    'saveUnit' => array(),     //!< 保存单元
-
-
+    'queryUnit' => array(),      //!< 获取主题单元列表
+    'saveUnit' => array(),       //!< 保存单元
+    'saveUnitStatus' => array(), //!< 保存单元状态
 
     'saveFields' => array(),   //!< 保存字段
     'getAllFields' => array(), //!< 获取主题的全部字段
@@ -65,7 +64,7 @@ function saveOptions() { return C::t('#ankix#topic')->saveOptions(); }
 
 function queryUnit() { return C::t('#ankix#topic_unit')->query(); }
 function saveUnit() { return C::t('#ankix#topic_unit')->save(); }
-
+function saveUnitStatus() { return C::t('#ankix#topic_unit')->saveStatus(); }
 
 
 function saveFields() { return C::t('#ankix#topic')->saveFields(); }

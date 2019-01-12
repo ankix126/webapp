@@ -75,8 +75,8 @@ define(function(require){
             tbarStyle   : 'margin-bottom:-1px;',
             emptyMsg    : textblock.empty(),
             cm: new MWT.Grid.ColumnModel([
-                {head:lan('unit'),dataIndex:'unit_id',width:100,align:'left',sort:false,render:function(v,item){
-                    return '<i class="fa fa-folder"></i> '+item.unit_name;
+                {head:lan('unit'),dataIndex:'unit_id',width:110,align:'left',sort:false,render:function(v,item){
+                    return '<span style="color:gray">'+item.unit_name+'</span>';
                 }},
                 {head:'Data',dataIndex:'fields',align:'left',sort:false,render:function(v,item){
                     var txts = [];

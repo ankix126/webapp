@@ -7,7 +7,7 @@ define(function(require){
         new mwt.BorderLayout({
             render : domid,
             items : [
-                {id:'unit-'+domid,region:'west',width:200,split:true,style:'background:#f4f5f6',html:'单元'},
+                {id:'unit-'+domid,region:'west',width:210,split:true,style:'background:#f4f5f6',html:'单元'},
                 {id:'item-'+domid,region:'center',style:'background:#fff;',html:'数据'}
             ]
         }).init();

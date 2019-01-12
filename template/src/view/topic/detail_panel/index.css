@@ -1,0 +1,16 @@
+
+.grid-unit-cover {
+    max-width: 90px;
+    max-height: 90px;
+    border: solid 1px #ccc;
+    box-shadow: 2px 2px 1px #ddd;
+    border-radius: 4px;
+}
+.grid-unit-title {
+    margin:0 0 5px;
+    font-size: 12px;
+    color: blue;
+}
+.grid-unit-btn {
+    padding:1px 5px;
+}
