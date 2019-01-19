@@ -8,7 +8,7 @@
 ####################################################
 
 pluginname="ankix"
-pluginversion="1.0"
+pluginversion="1.0.2"
 outdir="output/$pluginname"
 buildtime=`date +%Y%m%d%H%M%S`
 tarname="$pluginname-$pluginversion-$buildtime.zip"

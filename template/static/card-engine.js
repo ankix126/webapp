@@ -200,16 +200,17 @@ function CardEngine(opts)
                 slides.join('')+
                 '<div id="slide-end" class="swiper-slide">'+
                   '<div style="padding-top: 50px;">'+
-                    '<h2>The End</h2>'+
-                    '<button id="endbtn" class="mwt-btn mwt-btn-default">返回(Back)</button>'+
+                    '<h2 style="margin:20px 0;font-weight:normal;font-size:30px;">The End</h2>'+
+                    '<button id="endbtn" class="mwt-btn mwt-btn-danger roundbtn">'+
+                        'Back</button>'+
                   '</div>'+
                 '</div>'+
             '</div>'+
-            '<div class="swiper-button-next" style="top:initial;bottom:15px;right:15px;"></div>'+
-            '<div class="swiper-button-prev" style="top:initial;bottom:15px;left:initial;right:80px;"></div>'+
-            '<div class="swiper-pagination" style="bottom:0;top:initial"></div>'+
+            '<div class="swiper-button-next" style="top:initial;bottom:15px;right:25px;"></div>'+
+            '<div class="swiper-button-prev" style="top:initial;bottom:15px;left:25px;"></div>'+
+            '<div class="swiper-pagination"></div>'+
             '<div class="global-control">'+
-                '<i id="ctrl-end-btn" class="sicon-arrow-left" style="font-size:20px;"></i>'+
+                '<i id="ctrl-end-btn" class="sicon-arrow-left" style="font-size:30px;"></i>'+
             '</div>'+
         '</div>';
         jQuery('#'+elid).html(code);
@@ -234,7 +235,7 @@ function CardEngine(opts)
             nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
             pagination: '.swiper-pagination',
-            paginationType: 'progress',
+            paginationType: 'fraction',
             loop: false,
             preloadImages: false,
             lazyLoading: true,

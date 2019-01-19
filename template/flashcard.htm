@@ -19,28 +19,26 @@ $lang = C::m('#ankix#ankix_lang')->getAll();
     <script type="text/javascript" src="{$plugin_path}/template/libs/swiper/3.3.1/swiper.jquery.min.js"></script>
     <script type="text/javascript" src="{$plugin_path}/template/static/card-engine.js"></script>
     <style>
-        html,body {position: relative;height:100%;}
+        html,body{position:relative;height:100%;}
+        .container {margin:30px auto;max-width:720px;}
     </style>
 </head>
 <body>
-
-  <div id="cover" style="padding: 20px;">
+  <div id="cover" class="flashcard-cover container">
       <h1 style="text-align: center">{$unitInfo[unitName]}</h1>
-      <div id="options-div"></div>
-      <button id="startbtn" class="mwt-btn mwt-btn-block mwt-btn-primary">Start</button>
+      <div class="cover-img" style="margin-bottom:40px;">
+        <img src="{$unitInfo[coverImage]}">
+      </div>
+      <div id="options-div" style="display:none;"></div>
+      <button id="startbtn" class="mwt-btn mwt-btn-danger roundbtn">Go</button>
   </div>
-
   <div id="card-engine-div" style="width:100%;height:100%;display:none;"></div>
-
 <script>
-
 var cardInfo = {echo json_encode($unitInfo)};
-
 var cardEngine;
 var activeStyleIndex = 0;
 
 function initEngineOptions() {
-
     var styleSels = [];
     for (var i=0;i<cardInfo.cardStyles.length;++i) {
         var im = cardInfo.cardStyles[i];
@@ -66,12 +64,9 @@ function initEngineOptions() {
     });
 }
 
-
 jQuery(document).ready(function(){
-
     // 初始化播放参数选项
     initEngineOptions();
-
 
     jQuery('#startbtn').unbind('click').click(function(){
         jQuery('#cover').hide();
@@ -85,14 +80,14 @@ jQuery(document).ready(function(){
         });
         cardEngine.init();
     });
-});
 
+    jQuery('#startbtn').click();
+});
 
 function endEngine() {
     jQuery('#cover').show();
     jQuery('#card-engine-div').hide();
 }
-
 
 </script>
 </body>

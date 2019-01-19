@@ -6,6 +6,7 @@ require_once dirname(__FILE__)."/class/env.class.php";
 $plugin_path = ankix_env::get_plugin_path();
 
 try {
+/*
     //1. 登录检查
     if(!$_G['uid']){
         $login = ankix_env::get_siteurl()."/member.php?mod=logging&action=login";
@@ -13,6 +14,7 @@ try {
         header("Location: $login");
         exit();
     }
+*/
 
     //2. 获取单元的卡片数据
     $unit = $_GET['unit'];
@@ -24,7 +26,7 @@ try {
     $unitInfo = $mUnit->getFlashCardsByUnitId($unitId);
 
 
-    //2. 加载模板
+    //9. 加载模板
     $filename = basename(__FILE__);
     list($controller) = explode('.',$filename);
     include template("ankix:".strtolower($controller));

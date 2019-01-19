@@ -3,12 +3,34 @@
 .flashcard-cover {padding:20px;}
 .flashcard-cover h1 {text-align:center;font-weight:normal;font-size:18px;margin-bottom:15px;}
 
+.cover-img {
+    position: relative;
+    border-top: solid 2px #ccc;
+    border-left: solid 2px #ccc;
+    box-shadow: 2px 2px 2px #ccc;
+    border-radius:5px;
+    width: 300px;
+    margin: 0 auto;
+}
+.cover-img img {max-width:100%;}
+.cover-img:after {
+    position:absolute;
+    top:0;bottom:0;left:3px;right:0;
+    background: rgba(130,130,130,0.1);
+    content: '';
+}
+
+.roundbtn {
+    width:50px;height:50px;display:block;margin:0 auto;border-radius:100%;
+    padding:0;
+    box-shadow: 2px 2px 3px #ccc;
+}
 
 
 .card-canvas {font-size:30px;min-width:50%;}
-.card-canvas img {max-width:150px;max-height:150px;}
+.card-canvas img {max-width:280px;max-height:280px;}
 .card-canvas .fa-play-circle {
-    font-size:28px;
+    font-size:40px;
     color: #BD46D2;
     cursor: pointer;
     display: block;
@@ -44,6 +66,16 @@
     align-items: inherit;
     padding-top: 20px;
 }
+.swiper-pagination {
+    top:20px;bottom:initial;
+    left:initial;right:20px;
+    background:#FF7043;
+    width:100px;
+    border-radius: 100px;
+    color: #fff;
+    padding: 5px 0;
+    font-size:18px;
+}
 
 .global-control {
     position: fixed;
@@ -51,7 +83,7 @@
     top: 20px;
     z-index: 99;
 }
-.global-control i {cursor: pointer;color:#007AFF;}
+.global-control i {cursor:pointer;color:#007AFF;}
 
 
 /* 指标卡片 */

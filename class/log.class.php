@@ -71,10 +71,10 @@ class ankix_log
         $strLog = str_replace("\n","",$strLog);
 
         //3. 写日志
-        $this->write_file($logfile, $strLog);
+        $this->write_file($strLog);
     }
 
-    private function write_file ($strPath, $str)
+    private function write_file ($str)
     {
         runlog('ankix', $str);
     }
