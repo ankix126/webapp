@@ -4,6 +4,7 @@ define(function(require){
     var domid = dialogid;
     var form,dialog,params,callback;
     var value = '';
+    var aisource = 'youdao';
 
     function init_dialog()
     {/*{{{*/
@@ -52,15 +53,30 @@ define(function(require){
             fullscreen: true,
             style     : 'left:30%;right:30%;',
             bodyStyle : 'padding:5px 10px 10px;background:#fff;',
-            body : '<table class="infotb">'+
+            body : '<div>'+
+                '<ul class="mwt-nav mwt-nav-tabs">'+
+                  '<li name="aili" id="aili-youdao">'+
+                    '<a name="ailia" href="javascript:void(0);" data-v="youdao">有道语音合成</a></li>'+
+                  '<li name="aili" id="aili-baidu">'+
+                    '<a name="ailia" href="javascript:void(0);" data-v="baidu">百度语音合成</a></li>'+
+                '</ul>'+
+              '</div>'+
+              '<table class="infotb">'+
                 '<tr><td valign="top" width="70">文本：</td><td colspan="2" id="text-'+domid+'"></td></tr>'+
-                '<tr><td>语速：</td><td width="150"><span id="spd-'+domid+'"></span></td>'+
+
+                '<tbody name="aiopts" id="aiopts-baidu">'+
+                  '<tr><td>语速：</td><td width="150"><span id="spd-'+domid+'"></span></td>'+
                     '<td class="tip">取值0-9，默认为5中语速</td>'+
-                '<tr><td>音量：</td><td><span id="vol-'+domid+'"></span></td>'+
+                  '<tr><td>音量：</td><td><span id="vol-'+domid+'"></span></td>'+
                     '<td class="tip">取值0-15，默认为5中音量</td>'+
-                '<tr><td>发音人：</td><td><span id="per-'+domid+'"></span></td>'+
-                 '<td class="tip">发音人选择</td>'+
-                '</tr>'+
+                  '<tr><td>发音人：</td><td><span id="per-'+domid+'"></span></td>'+
+                   '<td class="tip">发音人选择</td>'+
+                  '</tr>'+
+                '</tbody>'+
+
+                '<tbody name="aiopts" id="aiopts-youdao">'+
+                '</tbody>'+
+
                 '<tr><td colspan="3">'+
                     '<button id="subbtn-'+domid+'" class="mwt-btn mwt-btn-block mwt-btn-primary radius">合成</button>'+
                 '</td></tr>'+
@@ -74,19 +90,33 @@ define(function(require){
         //3. dialog open event
         dialog.on('open',function(){
             value = '';
+            // 选择ai
+            jQuery('[name=ailia]').unbind('click').click(function(){
+                aisource = jQuery(this).data('v');
+                syncAiSource();
+            });
             jQuery('#resdiv-'+domid).html('');
             jQuery('#subbtn-'+domid).unbind('click').click(tts);
+            syncAiSource();
         });
     }/*}}}*/
 
     // 合成语音
-    function tts() {
+    function tts() 
+    {/*{{{*/
         var data = form.getData();
-        var data = form.getData();
-        var url = dz.aiurl+"?text="+data.text+
-                '&spd='+data.spd+
-                '&vol='+data.vol+
-                '&per='+data.per;
+        var url = '';
+        switch (aisource) {
+            case 'youdao':
+                url = 'https://dict.youdao.com/dictvoice?le=zh-CN&audio='+data.text;
+                break;
+            default:
+                url = dz.aiurl+"?text="+data.text+
+                     '&spd='+data.spd+
+                     '&vol='+data.vol+
+                     '&per='+data.per;
+                break;
+        }
         value = encodeURI(url);
         var code = '<a id="playbtn-'+domid+'" href="javascript:;" style="font-size:40px;color:#BD46D2">'+
             '<i class="fa fa-play-circle playbtn"></i>'+
@@ -95,12 +125,23 @@ define(function(require){
         jQuery("#resdiv-"+domid).html(code);
         jQuery('#playbtn-'+domid).unbind('click').click(play);
         play();
-    }
+    }/*}}}*/
 
     function play() {
         var audio = document.getElementById("audio-"+dialogid);
         audio.play();
     }
+
+    // 选择ai源
+    function syncAiSource() 
+    {/*{{{*/
+        // nav
+        jQuery('[name=aili]').removeClass('mwt-active');
+        jQuery('#aili-'+aisource).addClass('mwt-active');
+        // tbody
+        jQuery('[name=aiopts]').hide();
+        jQuery('#aiopts-'+aisource).show();
+    }/*}}}*/
 
     function submitClick() {
         if (value=='') {

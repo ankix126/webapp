@@ -198,13 +198,13 @@ function CardEngine(opts)
         var code = '<div id="container-'+elid+'" class="swiper-container" style="width:100%;height:100%;">'+
             '<div class="swiper-wrapper">'+
                 slides.join('')+
-                '<div id="slide-end" class="swiper-slide">'+
+/*                '<div id="slide-end" class="swiper-slide">'+
                   '<div style="padding-top: 50px;">'+
                     '<h2 style="margin:20px 0;font-weight:normal;font-size:30px;">The End</h2>'+
                     '<button id="endbtn" class="mwt-btn mwt-btn-danger roundbtn">'+
                         'Back</button>'+
                   '</div>'+
-                '</div>'+
+                '</div>'+*/
             '</div>'+
             '<div class="swiper-button-next" style="top:initial;bottom:15px;right:25px;"></div>'+
             '<div class="swiper-button-prev" style="top:initial;bottom:15px;left:25px;"></div>'+

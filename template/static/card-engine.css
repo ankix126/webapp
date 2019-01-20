@@ -64,17 +64,17 @@
     -ms-flex-align: center;
     -webkit-align-items: inherit;
     align-items: inherit;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 .swiper-pagination {
-    top:20px;bottom:initial;
-    left:initial;right:20px;
+    top:15px;bottom:initial;
+    left:initial;right:15px;
     background:#FF7043;
-    width:100px;
+    width:80px;
     border-radius: 100px;
     color: #fff;
-    padding: 5px 0;
-    font-size:18px;
+    padding: 2px 0;
+    font-size:16px;
 }
 
 .global-control {
